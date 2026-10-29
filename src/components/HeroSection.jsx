@@ -59,7 +59,7 @@ const HeroSection = () => {
           <ImageWithFallback
             src={HERO_IMAGE}
             alt="Traverse Globe travellers celebrating together on the Dubai desert dunes"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center"
             loading="eager"
             fetchpriority="high"
             sizes="100vw"
