@@ -467,7 +467,7 @@ export async function searchHotels(keyword, limit = 25) {
  */
 export async function fetchHomepagePackages(limit = 20) {
   try {
-    const query = `*[_type == "package" && active == true]
+    const query = `*[_type == "package" && active == true && category == "uae"]
       | order(featured desc, publishedAt desc)[0...$limit]${proj(PACKAGE_CARD)}`;
     const data = await sanityClient.fetch(query, { limit });
     return data || [];
