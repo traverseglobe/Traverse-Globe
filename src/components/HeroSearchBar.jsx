@@ -250,14 +250,6 @@ function Field({ icon: Icon, label, value, onChange, options, placeholder, isFir
         <span className="min-w-0 flex-1">
           <span
             className={cn(
-              'block text-[10px] font-poppins font-semibold uppercase tracking-widest transition-colors',
-              open ? 'text-brand-orange' : 'text-brand-muted-ink'
-            )}
-          >
-            {label}
-          </span>
-          <span
-            className={cn(
               'block truncate font-poppins text-sm',
               value ? 'text-brand-ink font-medium' : 'text-brand-muted-ink'
             )}
@@ -399,7 +391,7 @@ export default function HeroSearchBar() {
           >
             {status === 'loading'
               ? <><Loader2 className="w-4 h-4 animate-spin" /> Sending…</>
-              : <>Plan my Dubai trip <ArrowRight className="w-4 h-4 transition-transform group-hover/cta:translate-x-0.5" /></>}
+              : <>Plan My Trip <ArrowRight className="w-4 h-4 transition-transform group-hover/cta:translate-x-0.5" /></>}
           </ShimmerButton>
         </div>
       </div>

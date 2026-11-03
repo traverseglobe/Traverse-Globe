@@ -177,7 +177,7 @@ const PARKED_T = 0.62; // reduced motion: the aircraft holds here
 // Orientation physics (radians, seconds).
 const FOCUS_ELEVATION = 0.0; // Centered dead-on; no offset or top clipping
 const SWAY = 0.42; // idle auto-rotation drifts ± this far around the corridor
-const AUTO_SPEED = 0.07;
+const AUTO_SPEED = 0.03;
 const RETURN_DELAY = 1.6; // after a drag, wait this long before drifting home
 const RETURN_SPEED = 0.9;
 const DAMPING = 3.6; // velocity blend rate — increased for controlled, less slippery spin

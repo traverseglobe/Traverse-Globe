@@ -37,41 +37,41 @@ function ReviewCard({ review }) {
   return (
     <article
       className={cn(
-        'snap-start shrink-0 w-[300px] md:w-[360px] flex flex-col rounded-2xl overflow-hidden',
+        'snap-start shrink-0 w-[270px] md:w-[320px] flex flex-col rounded-2xl overflow-hidden',
         'bg-surface border border-brand-hairline',
         'shadow-soft-md hover:shadow-soft-xl transition-shadow duration-300'
       )}
     >
-      <div className="p-5 flex flex-col flex-1">
+      <div className="p-4 flex flex-col flex-1">
         <div className="flex items-center gap-1 text-brand-orange">
           {[0, 1, 2, 3, 4].map((i) => (
             <Star key={i} filled={i < review.rating} className="w-4 h-4" />
           ))}
         </div>
 
-        <blockquote className="mt-3 text-sm md:text-base text-brand-ink/90 font-canva-sans leading-relaxed line-clamp-5">
+        <blockquote className="mt-2 text-xs md:text-sm text-brand-ink/90 font-canva-sans leading-relaxed line-clamp-4">
           “{review.text}”
         </blockquote>
 
         {review.tripPhotos && review.tripPhotos.length > 0 && (
-          <div className="mt-4 flex items-center gap-2">
-            {review.tripPhotos.map((photo, pIdx) => (
+          <div className="mt-3 flex items-center gap-1.5">
+            {review.tripPhotos.slice(0, 2).map((photo, pIdx) => (
               <ImageWithFallback
                 key={pIdx}
                 src={photo}
                 alt={`${review.author || 'Traveller'} trip in ${review.country}`}
-                className="w-16 h-16 object-cover rounded-xl border border-brand-hairline"
+                className="w-12 h-12 object-cover rounded-lg border border-brand-hairline"
                 loading="lazy"
               />
             ))}
           </div>
         )}
 
-        <div className="mt-auto pt-4 flex items-center gap-3 border-t border-brand-hairline mt-4">
+        <div className="mt-auto pt-3 flex items-center gap-2.5 border-t border-brand-hairline mt-3">
           <img
             src={review.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop'}
             alt=""
-            className="w-10 h-10 rounded-full border border-brand-hairline object-cover"
+            className="w-8 h-8 rounded-full border border-brand-hairline object-cover"
             loading="lazy"
           />
           <div>
@@ -199,7 +199,7 @@ const DESTINATION_FALLBACK_PHOTOS = {
   if (!allTestimonials.length) return null;
 
   return (
-    <section className="section-y bg-surface/75 overflow-hidden">
+    <section className="py-8 md:py-10 bg-surface/75 overflow-hidden">
       {/* JSON-LD for SEO */}
       <script
         type="application/ld+json"
@@ -209,7 +209,7 @@ const DESTINATION_FALLBACK_PHOTOS = {
       <div className="container-custom">
         {/* Header — left-aligned kicker/title/subtitle stack, matching every other
             band on the page. The old centred heading sat oddly above a left-anchored rail. */}
-        <div className="mb-6 md:mb-8 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+        <div className="mb-5 md:mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
           <div className="max-w-2xl">
             <Kicker className="mb-3 block">Verified reviews</Kicker>
             <SectionRule className="mb-4" />
@@ -272,7 +272,7 @@ const DESTINATION_FALLBACK_PHOTOS = {
       </div>
 
       {/* Drag progress + CTA */}
-      <div className="container-custom mt-5 flex flex-wrap items-center gap-4">
+      <div className="container-custom mt-4 flex flex-wrap items-center gap-3">
         <div className="flex-1 min-w-[80px] h-1 rounded-full bg-brand-hairline overflow-hidden" aria-hidden="true">
           <div ref={barRef} className="h-full w-1/3 rounded-full bg-brand-orange" />
         </div>

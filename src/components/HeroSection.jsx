@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { renderingPrerender } from '@/lib/hydration';
 import { REVEAL_VIEWPORT, riseItem, staggerParent } from '@/lib/motionVariants';
-import { PhoneCall, Star } from 'lucide-react';
+import { PhoneCall, PlaneTakeoff, Star } from 'lucide-react';
 import { HERO_WIDTHS } from '@/lib/sanityImage';
 import ImageWithFallback from './revamp/ImageWithFallback';
 import Kicker from './revamp/Kicker';
@@ -80,7 +80,8 @@ const HeroSection = () => {
           <motion.div variants={parent} initial={intro} animate="show">
             <motion.div variants={item}>
               <Kicker tone="orange" size="lg" className="text-white/90 mb-3 md:mb-4">
-                Curated family trips · India + UAE
+                <PlaneTakeoff className="inline-block w-4 h-4 mr-1.5 -mt-0.5" aria-hidden="true" />
+                Your Journey Begins
               </Kicker>
             </motion.div>
 
@@ -93,7 +94,7 @@ const HeroSection = () => {
             </h1>
 
             <motion.p variants={item} className="text-sm md:text-body-lg text-white/85 font-canva-sans max-w-xl mb-7 md:mb-9">
-              Handpicked trips for real families. Fixed prices, no hidden fees, one WhatsApp away — from Karnal to Sharjah.
+              Handpicked trips. Fixed prices. Zero hidden fees. Real people on the ground in Dubai, 24/7 — one message/call away.
             </motion.p>
 
             {/* Dual CTA Buttons */}
@@ -146,14 +147,14 @@ const HeroSection = () => {
               </div>
 
               <div className="px-5 first:pl-0 last:pr-0">
-                <dt className="sr-only">Google and WhatsApp rating</dt>
+                <dt className="sr-only">Google Reviews rating</dt>
                 <dd>
                   <span className="flex items-baseline gap-1 font-poppins font-bold text-2xl md:text-3xl text-white leading-none">
                     <NumberTicker value={4.8} decimalPlaces={1} delay={0.65} animate={!skipIntro} />
                     <Star className="w-4 h-4 md:w-5 md:h-5 shrink-0 translate-y-[-1px] fill-brand-orange text-brand-orange" />
                   </span>
                   <span className="mt-1.5 block text-[11px] font-poppins uppercase tracking-widest text-white/65">
-                    Google &amp; WhatsApp
+                    Google Reviews
                   </span>
                 </dd>
               </div>
