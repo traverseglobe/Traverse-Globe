@@ -87,7 +87,7 @@ export { sanityClient };
 const PACKAGE_CARD = `
   _id, id, slug, category, title, price, strikePrice, destination, duration,
   rating, reviews, bannerImage, themes, urgency, savingsPercent,
-  freeCancellationDays, featured, publishedAt,
+  freeCancellationDays, featured, publishedAt, highlights,
   "itinerary": { "days": itinerary.days[]{ dayKey, title } },
   inclusions,
   hotels

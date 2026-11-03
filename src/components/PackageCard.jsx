@@ -13,6 +13,7 @@ import {
   Eye,
   Star,
   Clock,
+  MapPin,
   Sparkles,
   ChevronLeft,
   ChevronRight,
@@ -49,7 +50,7 @@ const MAX_TILT = 6;
 const SPOTLIGHT_SIZE = 260;
 
 const formatDuration = (nights) => {
-  if (!nights) return '5 Days & 4 Nights';
+  if (!nights) return '';
   const match = nights.match(/(\d+)N\/?(\d+)?D?/i);
   if (match) {
     const n = parseInt(match[1], 10);
@@ -143,21 +144,8 @@ export default function PackageCard({
   const resolvedCategory = useMemo(() => {
     let cat = (category || packageData.category || '').toLowerCase().trim();
     if (cat === 'chardham' || cat === 'chardham-yatra') return 'chardhamyatra';
-    if (cat) return cat;
-    const numId = Number(packageData.id);
-    if (numId >= 1 && numId <= 10) return 'uae';
-    if ((numId >= 11 && numId <= 15) || (numId >= 26 && numId <= 30)) return 'bali';
-    if ((numId >= 16 && numId <= 20) || (numId >= 36 && numId <= 39)) return 'thailand';
-    if ((numId >= 21 && numId <= 25) || (numId >= 31 && numId <= 35)) return 'singapore';
-    if (numId >= 40 && numId <= 54) return 'srilanka';
-    if (numId >= 55 && numId <= 64) return 'vietnam';
-    if (numId >= 65 && numId <= 74) return 'laos';
-    if (numId >= 91 && numId <= 100) return 'andaman';
-    if (numId >= 101 && numId <= 110) return 'jaipur';
-    if (numId >= 111 && numId <= 120) return 'kerala';
-    if (numId >= 121 && numId <= 130) return 'kashmir';
-    return 'uae';
-  }, [category, packageData.category, packageData.id]);
+    return cat || 'uae';
+  }, [category, packageData.category]);
 
   const destinationType = useMemo(() => {
     const domestic = ['andaman', 'jaipur', 'kerala', 'kashmir', 'chardhamyatra', 'chardham'];
@@ -189,7 +177,7 @@ export default function PackageCard({
       : [packageData.image || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80'];
   }, [packageData]);
 
-  const strikePrice = packageData.strikePrice || (packageData.price ? Math.round(packageData.price * 1.25) : null);
+  const strikePrice = packageData.strikePrice || null;
   const savingsAmount = computeSavingsAmount(packageData.price, strikePrice);
   const savingsPercent = packageData.savingsPercent || computeSavingsPercent(packageData.price, strikePrice);
 
@@ -208,17 +196,12 @@ export default function PackageCard({
       return packageData.highlights.slice(0, 2).join(' • ');
     }
     if (itineraryDays.length >= 2) {
-      const day1 = itineraryDays[0]?.title?.split('-')[0]?.trim() || 'Arrival';
-      const day2 = itineraryDays[1]?.title?.split('-')[0]?.trim() || 'City Tour';
-      return `${day1} • ${day2}`;
+      const day1 = itineraryDays[0]?.title?.split('-')[0]?.trim();
+      const day2 = itineraryDays[1]?.title?.split('-')[0]?.trim();
+      return [day1, day2].filter(Boolean).join(' • ') || '';
     }
-    if (resolvedCategory === 'uae') return 'Dubai City • Desert Safari • Marina';
-    if (resolvedCategory === 'bali') return 'Ubud Rice Terraces • Kuta Beach';
-    if (resolvedCategory === 'kashmir') return 'Srinagar Dal Lake • Gulmarg';
-    if (resolvedCategory === 'kerala') return 'Munnar Hills • Alleppey Backwaters';
-    if (resolvedCategory === 'thailand') return 'Bangkok Temples • Phuket Beaches';
-    return `${resolvedCategory?.toUpperCase()} Signature Highlights`;
-  }, [packageData.highlights, itineraryDays, resolvedCategory]);
+    return '';
+  }, [packageData.highlights, itineraryDays]);
 
   const handleViewPackage = () => {
     if (soldOut) return;
@@ -454,35 +437,65 @@ export default function PackageCard({
 
             {/* Body Section */}
             <div className={cn(CARD_BODY, 'flex flex-col flex-1')}>
-              {/* Row 1: Duration (Left) & Star Rating (Right) */}
-              <div className="flex items-center justify-between gap-2 text-xs font-poppins text-brand-muted-ink mb-1.5">
+              {/* Row 1: Duration (Left) & Location (Right) */}
+              <div className="flex items-center justify-between gap-2 text-xs font-poppins text-brand-muted-ink mb-1">
                 <span className="inline-flex items-center gap-1 font-medium text-brand-ink">
                   <Clock className="w-3.5 h-3.5 text-brand-orange" />
                   {formatDuration(packageData.nights)}
                 </span>
 
-                <div className="flex items-center gap-1 text-xs font-semibold text-brand-ink">
-                  <Star className="w-3.5 h-3.5 fill-amber-400 stroke-amber-400" />
-                  <span>{packageData.rating ? packageData.rating.toFixed(1) : '4.8'}</span>
-                  <span className="text-brand-muted-ink font-normal">
-                    ({packageData.reviews || 18})
+                {packageData.destination && (
+                  <span className="inline-flex items-center gap-1 text-brand-muted-ink">
+                    <MapPin className="w-3 h-3" />
+                    <span className="truncate max-w-[120px]">{packageData.destination}</span>
                   </span>
-                </div>
+                )}
               </div>
 
+              {/* Rating */}
+              {packageData.rating > 0 && (
+                <div className="flex items-center gap-1 text-xs font-poppins mb-1.5">
+                  <Star className="w-3.5 h-3.5 fill-amber-400 stroke-amber-400" />
+                  <span className="font-semibold text-brand-ink">{packageData.rating.toFixed(1)}</span>
+                  {packageData.reviews > 0 && (
+                    <span className="text-brand-muted-ink">({packageData.reviews})</span>
+                  )}
+                </div>
+              )}
+
               {/* Row 2: Package Title */}
-              <h3 className={cn(CARD_TITLE, 'text-brand-ink mb-1.5 group-hover:text-brand-orange transition-colors')}>
+              <h3 className={cn(CARD_TITLE, 'text-brand-ink mb-2 group-hover:text-brand-orange transition-colors')}>
                 <a href={packageLink} onClick={(e) => { e.preventDefault(); handleViewPackage(); }}>
                   {packageData.title}
                 </a>
               </h3>
 
-              {/* Row 3: Itinerary Highlights / Stops Pill */}
-              <div className="mb-2">
-                <span className="bg-amber-50 dark:bg-amber-950/30 text-amber-900 dark:text-amber-300 text-[11px] font-poppins font-medium px-2.5 py-1 rounded-md inline-block line-clamp-1 border border-amber-200/60 dark:border-amber-800/40">
-                  {stopsPill}
-                </span>
+              {/* Row 3: Hotel star badge + Visa tag */}
+              <div className="flex flex-wrap items-center gap-1.5 mb-2">
+                {packageData.hotels?.title && (
+                  <span className="inline-flex items-center gap-1 bg-amber-50 dark:bg-amber-950/30 text-amber-900 dark:text-amber-300 text-[11px] font-poppins font-medium px-2 py-0.5 rounded-md border border-amber-200/60 dark:border-amber-800/40">
+                    <Star className="w-3 h-3 fill-amber-400 stroke-amber-400" />
+                    {packageData.hotels.title}
+                  </span>
+                )}
+                {inclusions.some(i => /visa/i.test(i)) && (
+                  <span className="text-[11px] font-poppins font-medium px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/40">
+                    Visa Included
+                  </span>
+                )}
               </div>
+
+              {/* Row 4: Inclusions grid (up to 6 items, 2 columns) */}
+              {inclusions.length > 0 && (
+                <div className="grid grid-cols-2 gap-x-2 gap-y-1 mb-2">
+                  {inclusions.slice(0, 6).map((item, idx) => (
+                    <span key={idx} className="inline-flex items-start gap-1 text-[11px] text-brand-ink font-canva-sans leading-tight">
+                      <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                      <span className="line-clamp-1">{item}</span>
+                    </span>
+                  ))}
+                </div>
+              )}
 
               {/* Urgency Badge if any */}
               {urgencyMeta && !soldOut && (
@@ -495,7 +508,7 @@ export default function PackageCard({
                 </div>
               )}
 
-              {/* Row 4: Pricing Block */}
+              {/* Row 5: Pricing Block */}
               <div className="mt-auto pt-2 border-t border-brand-hairline">
                 <div className="flex items-baseline gap-2 flex-wrap mb-1">
                   {strikePrice > (packageData.price || 0) && (
@@ -512,7 +525,7 @@ export default function PackageCard({
 
                 <div className="flex items-baseline gap-1.5">
                   <span className="text-lg md:text-xl font-bold font-poppins text-brand-ink leading-none">
-                    ₹{packageData.price ? packageData.price.toLocaleString('en-IN') : '24,999'}
+                    {packageData.price ? `₹${packageData.price.toLocaleString('en-IN')}` : 'Contact us'}
                   </span>
                   <span className="text-xs text-brand-muted-ink font-canva-sans">
                     / Adult

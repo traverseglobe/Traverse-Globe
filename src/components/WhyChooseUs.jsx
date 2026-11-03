@@ -1,7 +1,43 @@
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { CheckCircle2, Phone, ShieldCheck, Clock, Award } from 'lucide-react';
 import { companyInfo } from '../data/companyInfo';
 import Kicker from './revamp/Kicker';
 import SectionRule from './revamp/SectionRule';
+
+const Globe = lazy(() => import('@/components/magicui/Globe'));
+
+const GLOBE_PLACEHOLDER = (
+  <div
+    className="mx-auto aspect-square w-full max-w-[460px] animate-pulse rounded-full border border-brand-hairline bg-teal/5 ring-1 ring-inset ring-teal/10"
+    aria-hidden="true"
+  />
+);
+
+function useNearViewportIdle(ref, rootMargin = '200px') {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || ready) return undefined;
+    let idleId = 0;
+    let timeoutId = 0;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+      if ('requestIdleCallback' in window) {
+        idleId = window.requestIdleCallback(() => setReady(true), { timeout: 1200 });
+      } else {
+        timeoutId = window.setTimeout(() => setReady(true), 200);
+      }
+    }, { rootMargin });
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      if (idleId) window.cancelIdleCallback(idleId);
+      if (timeoutId) window.clearTimeout(timeoutId);
+    };
+  }, [ref, rootMargin, ready]);
+  return ready;
+}
 
 /**
  * WhyChooseUs — REVAMP_PLAN §3 #8, #14, #15 & §4.4
@@ -9,6 +45,9 @@ import SectionRule from './revamp/SectionRule';
  * - Right column: Engaging Scuba / Adventure video player with poster fallback
  */
 export default function WhyChooseUs() {
+  const globeRef = useRef(null);
+  const showGlobe = useNearViewportIdle(globeRef);
+
   return (
     <section className="section-y bg-brand-canvas/50">
       <div className="container-custom">
@@ -65,37 +104,19 @@ export default function WhyChooseUs() {
             </div>
           </div>
 
-          {/* Right Column: Adventure & Scuba Diving Video Player (5/12) */}
+          {/* Right Column: Interactive 3D Globe (5/12) */}
           <div className="lg:col-span-5">
-            <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-brand-scrim shadow-soft-xl border border-brand-hairline group">
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                poster="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              >
-                <source
-                  src="https://assets.mixkit.co/videos/preview/mixkit-scuba-diver-swimming-among-fishes-4171-large.mp4"
-                  type="video/mp4"
-                />
-              </video>
-
-              {/* Gradient scrim overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-scrim/90 via-brand-scrim/30 to-transparent flex items-end p-6">
-                <div>
-                  <span className="text-brand-orange text-xs font-poppins font-bold uppercase tracking-wider">
-                    Unmatched Adventures
-                  </span>
-                  <h4 className="text-white font-poppins font-bold text-lg md:text-xl mt-1 leading-snug">
-                    Deep Sea Scuba &amp; Desert Excursions
-                  </h4>
-                  <p className="text-white/80 font-canva-sans text-xs mt-1">
-                    Authentic experiences arranged directly by Traverse Globe
-                  </p>
-                </div>
-              </div>
+            <div ref={globeRef} className="relative mx-auto w-full max-w-[460px]">
+              {showGlobe ? (
+                <Suspense fallback={GLOBE_PLACEHOLDER}>
+                  <Globe className="mx-auto px-0" activeRoute="dxb" />
+                </Suspense>
+              ) : (
+                GLOBE_PLACEHOLDER
+              )}
+              <p className="mt-2 text-center font-canva-sans text-xs text-brand-muted-ink">
+                Drag to explore · scroll or pinch to zoom
+              </p>
             </div>
           </div>
         </div>

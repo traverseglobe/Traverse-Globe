@@ -1,44 +1,8 @@
-import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { Building2, Landmark, MapPin } from 'lucide-react';
 import { companyInfo } from '../data/companyInfo';
 import ContactEnquiryForm from '../components/ContactEnquiryForm';
 import WhyChooseUs from '../components/WhyChooseUs';
 import WhatsAppIcon from '../components/icons/WhatsAppIcon';
-
-const Globe = lazy(() => import('@/components/magicui/Globe'));
-
-const GLOBE_PLACEHOLDER = (
-  <div
-    className="mx-auto aspect-square w-full max-w-[520px] animate-pulse rounded-full border border-brand-hairline bg-teal/5 ring-1 ring-inset ring-teal/10"
-    aria-hidden="true"
-  />
-);
-
-function useNearViewportIdle(ref, rootMargin = '200px') {
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el || ready) return undefined;
-    let idleId = 0;
-    let timeoutId = 0;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      observer.disconnect();
-      if ('requestIdleCallback' in window) {
-        idleId = window.requestIdleCallback(() => setReady(true), { timeout: 1200 });
-      } else {
-        timeoutId = window.setTimeout(() => setReady(true), 200);
-      }
-    }, { rootMargin });
-    observer.observe(el);
-    return () => {
-      observer.disconnect();
-      if (idleId) window.cancelIdleCallback(idleId);
-      if (timeoutId) window.clearTimeout(timeoutId);
-    };
-  }, [ref, rootMargin, ready]);
-  return ready;
-}
 
 /**
  * Office marker for the address cards.
@@ -60,9 +24,6 @@ function OfficeMarker({ icon: Icon }) {
 }
 
 export default function Contact() {
-  const globeRef = useRef(null);
-  const showGlobe = useNearViewportIdle(globeRef);
-
   return (
     <div className="min-h-screen pt-20 pb-10">
       {/* Top banner */}
@@ -207,24 +168,6 @@ export default function Contact() {
               </address>
             </div>
           </article>
-        </div>
-      </section>
-
-      {/* Interactive Globe */}
-      <section className="py-10" aria-label="Interactive globe">
-        <div className="container mx-auto px-4">
-          <div ref={globeRef} className="relative mx-auto w-full max-w-[520px]">
-            {showGlobe ? (
-              <Suspense fallback={GLOBE_PLACEHOLDER}>
-                <Globe className="mx-auto px-0" activeRoute="dxb" />
-              </Suspense>
-            ) : (
-              GLOBE_PLACEHOLDER
-            )}
-            <p className="mt-3 text-center font-canva-sans text-xs text-brand-muted-ink">
-              Drag to explore · scroll or pinch to zoom
-            </p>
-          </div>
         </div>
       </section>
 
