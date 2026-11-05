@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Play } from 'lucide-react';
 import { REVEAL_VIEWPORT, riseItem, staggerParent } from '@/lib/motionVariants';
@@ -20,43 +20,12 @@ const TABS = [
 
 function VideoTile({ item }) {
   const [playing, setPlaying] = useState(false);
-  const [thumbUrl, setThumbUrl] = useState(item.image || '');
   const videoRef = useRef(null);
-  const thumbRef = useRef(null);
-
-  const extractFrame = useCallback(() => {
-    if (thumbUrl || !item.videoUrl) return;
-    const v = document.createElement('video');
-    v.crossOrigin = 'anonymous';
-    v.muted = true;
-    v.preload = 'metadata';
-    v.src = item.videoUrl;
-    v.addEventListener('loadeddata', () => {
-      v.currentTime = 0.5;
-    });
-    v.addEventListener('seeked', () => {
-      try {
-        const c = document.createElement('canvas');
-        c.width = v.videoWidth || 480;
-        c.height = v.videoHeight || 640;
-        c.getContext('2d').drawImage(v, 0, 0, c.width, c.height);
-        setThumbUrl(c.toDataURL('image/jpeg', 0.7));
-      } catch { /* CORS — keep gradient fallback */ }
-    }, { once: true });
-    thumbRef.current = v;
-  }, [item.videoUrl, thumbUrl]);
-
-  useEffect(() => {
-    if (!thumbUrl) extractFrame();
-    return () => { if (thumbRef.current) { thumbRef.current.src = ''; thumbRef.current = null; } };
-  }, [extractFrame, thumbUrl]);
 
   const handlePlay = () => {
     setPlaying(true);
     requestAnimationFrame(() => videoRef.current?.play());
   };
-
-  const hasPoster = Boolean(thumbUrl);
 
   return (
     <div
@@ -70,22 +39,28 @@ function VideoTile({ item }) {
         <video
           ref={videoRef}
           src={item.videoUrl}
-          poster={thumbUrl || undefined}
+          poster={item.image || undefined}
           controls
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         />
       ) : (
         <>
-          {hasPoster ? (
+          {item.image ? (
             <ImageWithFallback
-              src={thumbUrl}
+              src={item.image}
               alt={item.title}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
             />
           ) : (
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-scrim via-brand-scrim/90 to-brand-orange/20" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#0c1220] via-[#162033] to-[#1a1a2e]">
+              <div className="absolute inset-0 opacity-30"
+                style={{
+                  backgroundImage: 'radial-gradient(circle at 30% 70%, rgba(255,91,4,0.4) 0%, transparent 50%), radial-gradient(circle at 70% 30%, rgba(7,80,86,0.4) 0%, transparent 50%)',
+                }}
+              />
+            </div>
           )}
           <div
             className="absolute inset-0"
