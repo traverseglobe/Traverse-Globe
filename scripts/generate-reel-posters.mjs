@@ -13,7 +13,7 @@ const REELS = [
   { file: '2026-10-31_15-11-00_UTC.mp4', id: 'customerVideo-ig-halloween' },
   { file: '2026-10-27_15-39-34_UTC.mp4', id: 'customerVideo-ig-desert-50off' },
   { file: '2026-10-23_04-57-53_UTC.mp4', id: 'customerVideo-ig-majestic-hotel-stay' },
-  { file: '2026-10-18_14-06-45_UTC.mp4', id: 'customerVideo-ig-dubai-package-meme' },
+  { file: '2026-10-18_14-06-45_UTC.mp4', id: 'customerVideo-ig-dubai-package-meme', fallbackSource: '2026-10-07_02-50-24_UTC.mp4' },
   { file: '2026-10-17_17-21-14_UTC.mp4', id: 'customerVideo-ig-taj-downtown' },
   { file: '2026-10-14_16-28-28_UTC.mp4', id: 'customerVideo-ig-burj-khalifa-style' },
   { file: '2026-10-13_11-26-27_UTC.mp4', id: 'customerVideo-ig-chedi-arabic' },
@@ -35,7 +35,7 @@ const REELS = [
   { file: '2025-11-29_05-56-39_UTC.mp4', id: 'customerVideo-ig-bali-festival' },
   { file: '2025-11-25_16-15-36_UTC.mp4', id: 'customerVideo-ig-happy-traveller' },
   { file: '2025-11-24_13-57-38_UTC.mp4', id: 'customerVideo-ig-perfect-stay' },
-  { file: '2025-11-18_13-19-53_UTC.mp4', id: 'customerVideo-ig-dubai-style' },
+  { file: '2025-11-18_13-19-53_UTC.mp4', id: 'customerVideo-ig-dubai-style', time: '00:00:03' },
   { file: '2025-11-07_05-38-21_UTC.mp4', id: 'customerVideo-ig-bali-paradise' },
   { file: '2025-11-03_14-27-29_UTC.mp4', id: 'customerVideo-ig-emirates-glimpse' },
   { file: '2025-11-02_12-03-57_UTC.mp4', id: 'customerVideo-ig-thailand' },
@@ -46,17 +46,18 @@ const REELS = [
 console.log(`Generating poster images for ${REELS.length} reels...`);
 
 for (const reel of REELS) {
-  const videoPath = join(REELS_DIR, reel.file);
+  const sourceFile = reel.fallbackSource || reel.file;
+  const videoPath = join(REELS_DIR, sourceFile);
   const outPath = join(OUT_DIR, `${reel.id}.jpg`);
 
   if (!existsSync(videoPath)) {
-    console.log(`⚠ ${reel.file} not found, skipping`);
+    console.log(`⚠ ${sourceFile} not found, skipping`);
     continue;
   }
 
   try {
-    // Extract frame at 0.5 seconds, scale width to 480px while maintaining aspect ratio
-    execSync(`ffmpeg -ss 00:00:00.5 -i "${videoPath}" -vframes 1 -vf "scale=480:-1" -q:v 3 "${outPath}" -y`, {
+    const timestamp = reel.time || '00:00:01';
+    execSync(`ffmpeg -y -ss ${timestamp} -i "${videoPath}" -vframes 1 -vf "scale=480:-1" -q:v 3 -update 1 "${outPath}"`, {
       stdio: 'pipe',
     });
     console.log(`✓ Generated ${reel.id}.jpg`);

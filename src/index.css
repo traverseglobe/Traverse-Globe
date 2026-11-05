@@ -535,6 +535,24 @@
     .rail-bleed { --rail-gutter: max(2rem, calc((100% - 1400px) / 2 + 2rem)); }
   }
 
+  /* Interactive scrub track for the orange progress slider */
+  .rail-slider-track {
+    position: relative;
+    touch-action: none;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .rail-slider-track::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    bottom: -12px;
+    left: 0;
+    right: 0;
+    cursor: pointer;
+  }
+
   /* Page title bands (breadcrumb + kicker + heading on listing pages).
      These sit at the very top of the page, where AestheticBackground's dot grid
      fades out under its mask and the header covers the orbs, so on their own

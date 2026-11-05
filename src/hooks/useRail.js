@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * One behaviour for every horizontal card rail on the site.
@@ -30,10 +30,23 @@ import { useEffect, useRef } from 'react';
 export function useRail(scrollerRef, { bounceMax = 64, damping = 0.4, minThumb = 0.12 } = {}) {
   const trackRef = useRef(null);
   const barRef = useRef(null);
+  const [domReady, setDomReady] = useState(0);
 
   useEffect(() => {
     const el = scrollerRef.current;
-    if (!el) return undefined;
+    const bar = barRef.current;
+
+    if (!el || !bar) {
+      // Elements are not mounted yet (e.g. while skeleton is active).
+      // Retry every 50ms so we attach listeners as soon as real cards render.
+      const timer = setInterval(() => {
+        if (scrollerRef.current && barRef.current) {
+          clearInterval(timer);
+          setDomReady((prev) => prev + 1);
+        }
+      }, 50);
+      return () => clearInterval(timer);
+    }
 
     const reduceMotion = typeof window.matchMedia === 'function'
       && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -275,9 +288,122 @@ export function useRail(scrollerRef, { bounceMax = 64, damping = 0.4, minThumb =
     window.addEventListener('pointerup', onPointerUp);
     window.addEventListener('resize', onScroll);
 
+    /* ---------- interactive slider scrub ---------- */
+
+    const sliderTrack = bar?.parentElement;
+
+    let scrubbing = false;
+    let scrubPointerId = null;
+    let scrubStartX = 0;
+    let scrubStartScrollLeft = 0;
+
+    const onScrubPointerDown = (e) => {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      if (!sliderTrack || !bar) return;
+
+      const rect = sliderTrack.getBoundingClientRect();
+      const trackWidth = rect.width;
+      if (!trackWidth) return;
+
+      const visible = el.clientWidth;
+      const total = el.scrollWidth;
+      const max = maxScroll();
+      if (max <= 0) return;
+
+      const pct = Math.max(minThumb, Math.min(1, visible / total));
+      const thumbWidth = pct * trackWidth;
+      const maxTravel = trackWidth - thumbWidth;
+      if (maxTravel <= 0) return;
+
+      scrubbing = true;
+      scrubPointerId = e.pointerId;
+      sliderTrack.setPointerCapture?.(e.pointerId);
+      sliderTrack.dataset.scrubbing = 'true';
+      bar.style.cursor = 'grabbing';
+      freezeSnap();
+      el.style.scrollBehavior = 'auto';
+
+      // Check if user clicked directly on the thumb or on the track outside the thumb
+      const barRect = bar.getBoundingClientRect();
+      const isOverThumb = e.clientX >= barRect.left && e.clientX <= barRect.right;
+
+      if (!isOverThumb) {
+        // Jump thumb center to click position
+        const clickX = e.clientX - rect.left;
+        const targetThumbLeft = Math.max(0, Math.min(maxTravel, clickX - thumbWidth / 2));
+        const p = targetThumbLeft / maxTravel;
+        el.scrollLeft = p * max;
+        paintBar();
+      }
+
+      scrubStartX = e.clientX;
+      scrubStartScrollLeft = el.scrollLeft;
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    const onScrubPointerMove = (e) => {
+      if (!scrubbing || !sliderTrack || !bar) return;
+
+      const rect = sliderTrack.getBoundingClientRect();
+      const trackWidth = rect.width;
+      if (!trackWidth) return;
+
+      const visible = el.clientWidth;
+      const total = el.scrollWidth;
+      const max = maxScroll();
+      if (max <= 0) return;
+
+      const pct = Math.max(minThumb, Math.min(1, visible / total));
+      const thumbWidth = pct * trackWidth;
+      const maxTravel = trackWidth - thumbWidth;
+      if (maxTravel <= 0) return;
+
+      const scrollRatio = max / maxTravel;
+      const dx = e.clientX - scrubStartX;
+      const desired = scrubStartScrollLeft + dx * scrollRatio;
+
+      el.scrollLeft = Math.max(0, Math.min(max, desired));
+      paintBar();
+      e.preventDefault();
+    };
+
+    const onScrubPointerUp = () => {
+      if (!scrubbing) return;
+      scrubbing = false;
+      if (scrubPointerId !== null && sliderTrack?.hasPointerCapture?.(scrubPointerId)) {
+        sliderTrack.releasePointerCapture(scrubPointerId);
+      }
+      scrubPointerId = null;
+      if (sliderTrack) {
+        delete sliderTrack.dataset.scrubbing;
+      }
+      if (bar) {
+        bar.style.cursor = 'grab';
+      }
+      el.style.scrollBehavior = '';
+      thawSnap();
+    };
+
+    if (sliderTrack && bar) {
+      sliderTrack.classList.add('rail-slider-track');
+      bar.style.cursor = 'grab';
+
+      sliderTrack.addEventListener('pointerdown', onScrubPointerDown);
+      sliderTrack.addEventListener('pointermove', onScrubPointerMove);
+      sliderTrack.addEventListener('pointerup', onScrubPointerUp);
+      sliderTrack.addEventListener('pointercancel', onScrubPointerUp);
+    }
+
     paintBar();
 
     return () => {
+      if (sliderTrack) {
+        sliderTrack.removeEventListener('pointerdown', onScrubPointerDown);
+        sliderTrack.removeEventListener('pointermove', onScrubPointerMove);
+        sliderTrack.removeEventListener('pointerup', onScrubPointerUp);
+        sliderTrack.removeEventListener('pointercancel', onScrubPointerUp);
+      }
       geometryObserver?.disconnect();
       el.removeEventListener('scroll', onScroll);
       el.removeEventListener('pointerdown', onPointerDown);
@@ -299,7 +425,7 @@ export function useRail(scrollerRef, { bounceMax = 64, damping = 0.4, minThumb =
         track.style.transition = '';
       }
     };
-  }, [scrollerRef, bounceMax, damping, minThumb]);
+  }, [scrollerRef, bounceMax, damping, minThumb, domReady]);
 
   return { trackRef, barRef };
 }

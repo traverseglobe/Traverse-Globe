@@ -273,8 +273,8 @@ const DESTINATION_FALLBACK_PHOTOS = {
 
       {/* Drag progress + CTA */}
       <div className="container-custom mt-4 flex flex-wrap items-center gap-3">
-        <div className="flex-1 min-w-[80px] h-1 rounded-full bg-brand-hairline overflow-hidden" aria-hidden="true">
-          <div ref={barRef} className="h-full w-1/3 rounded-full bg-brand-orange" />
+        <div data-rail-track="true" className="flex-1 min-w-[80px] h-1.5 rounded-full bg-brand-hairline overflow-hidden cursor-pointer" aria-label="Reviews scrollbar">
+          <div ref={barRef} data-rail-bar="true" className="h-full w-1/3 rounded-full bg-brand-orange" />
         </div>
 
         <div className="flex items-center gap-2 shrink-0">

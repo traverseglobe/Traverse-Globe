@@ -315,8 +315,8 @@ export default function MediaGallery() {
       </div>
 
       <div className="container-custom mt-5">
-        <div className="h-1 rounded-full bg-brand-hairline overflow-hidden" aria-hidden="true">
-          <div ref={barRef} className="h-full w-1/3 rounded-full bg-brand-orange" />
+        <div data-rail-track="true" className="h-1.5 rounded-full bg-brand-hairline overflow-hidden cursor-pointer" aria-label="Media gallery scrollbar">
+          <div ref={barRef} data-rail-bar="true" className="h-full w-1/3 rounded-full bg-brand-orange" />
         </div>
       </div>
     </section>
