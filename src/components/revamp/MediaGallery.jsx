@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Play } from 'lucide-react';
 import { REVEAL_VIEWPORT, riseItem, staggerParent } from '@/lib/motionVariants';
@@ -20,12 +20,43 @@ const TABS = [
 
 function VideoTile({ item }) {
   const [playing, setPlaying] = useState(false);
+  const [thumbUrl, setThumbUrl] = useState(item.image || '');
   const videoRef = useRef(null);
+  const thumbRef = useRef(null);
+
+  const extractFrame = useCallback(() => {
+    if (thumbUrl || !item.videoUrl) return;
+    const v = document.createElement('video');
+    v.crossOrigin = 'anonymous';
+    v.muted = true;
+    v.preload = 'metadata';
+    v.src = item.videoUrl;
+    v.addEventListener('loadeddata', () => {
+      v.currentTime = 0.5;
+    });
+    v.addEventListener('seeked', () => {
+      try {
+        const c = document.createElement('canvas');
+        c.width = v.videoWidth || 480;
+        c.height = v.videoHeight || 640;
+        c.getContext('2d').drawImage(v, 0, 0, c.width, c.height);
+        setThumbUrl(c.toDataURL('image/jpeg', 0.7));
+      } catch { /* CORS — keep gradient fallback */ }
+    }, { once: true });
+    thumbRef.current = v;
+  }, [item.videoUrl, thumbUrl]);
+
+  useEffect(() => {
+    if (!thumbUrl) extractFrame();
+    return () => { if (thumbRef.current) { thumbRef.current.src = ''; thumbRef.current = null; } };
+  }, [extractFrame, thumbUrl]);
 
   const handlePlay = () => {
     setPlaying(true);
     requestAnimationFrame(() => videoRef.current?.play());
   };
+
+  const hasPoster = Boolean(thumbUrl);
 
   return (
     <div
@@ -39,19 +70,23 @@ function VideoTile({ item }) {
         <video
           ref={videoRef}
           src={item.videoUrl}
-          poster={item.image}
+          poster={thumbUrl || undefined}
           controls
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         />
       ) : (
         <>
-          <ImageWithFallback
-            src={item.image}
-            alt={item.title}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            loading="lazy"
-          />
+          {hasPoster ? (
+            <ImageWithFallback
+              src={thumbUrl}
+              alt={item.title}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-scrim via-brand-scrim/90 to-brand-orange/20" />
+          )}
           <div
             className="absolute inset-0"
             style={{
