@@ -84,8 +84,8 @@ export default function MediaGallery() {
   const scrollerRef = useRef(null);
   const { trackRef, barRef } = useRail(scrollerRef);
 
-  const { data: photos = [], isPending: photosLoading } = useCustomerPhotos(20);
-  const { data: videos = [], isPending: videosLoading } = useCustomerVideosByRole('testimonial', 20);
+  const { data: photos = [], isPending: photosLoading } = useCustomerPhotos(30);
+  const { data: videos = [], isPending: videosLoading } = useCustomerVideosByRole('testimonial', 50);
 
   const items = useMemo(() => {
     const photoItems = photos.map((p, i) => ({

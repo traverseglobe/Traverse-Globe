@@ -532,7 +532,7 @@ export async function fetchOffers(limit = 4) {
  * @param {{ limit?: number }} options
  * @returns {Promise<Array>}
  */
-export async function fetchAllCustomerVideos({ limit = 20 } = {}) {
+export async function fetchAllCustomerVideos({ limit = 50 } = {}) {
   try {
     const query = `*[_type == "customerVideo" && active == true]
       | order(order asc)[0...$limit] {
