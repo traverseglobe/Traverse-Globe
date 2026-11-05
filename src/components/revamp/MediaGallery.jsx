@@ -107,36 +107,83 @@ export default function MediaGallery() {
   const { data: videos = [], isPending: videosLoading } = useCustomerVideosByRole('testimonial', 50);
 
   const items = useMemo(() => {
-    const photoItems = photos.map((p, i) => ({
+    const mapPhoto = (p, i) => ({
       id: p._id || `photo-${i}`,
       type: 'photo',
       title: p.caption || p.destination || 'Trip moment',
       subtitle: p.customerName,
       image: p.photo,
-      tall: i % 5 === 0,
-    }));
+    });
 
-    const videoItems = videos.map((v, i) => ({
+    const mapVideo = (v, i) => ({
       id: v._id || `video-${i}`,
       type: 'video',
       title: v.title || v.destination || 'Trip video',
       subtitle: v.customerName,
       image: v.poster ? resolveImageUrl(v.poster, { width: 480 }) : (v._id ? `/reels-posters/${v._id}.jpg` : ''),
       videoUrl: v.videoUrl,
-      tall: i % 3 === 0,
-    }));
+    });
 
-    if (active === 'photo') return photoItems;
-    if (active === 'video') return videoItems;
+    const packList = (list) => {
+      const result = [];
+      let i = 0;
+      while (i < list.length) {
+        const rem = list.length - i;
+        if (rem === 1) {
+          result.push({ ...list[i], tall: true });
+          i++;
+        } else if (rem === 2) {
+          result.push({ ...list[i], tall: false });
+          result.push({ ...list[i + 1], tall: false });
+          i += 2;
+        } else {
+          result.push({ ...list[i], tall: true });
+          result.push({ ...list[i + 1], tall: false });
+          result.push({ ...list[i + 2], tall: false });
+          i += 3;
+        }
+      }
+      return result;
+    };
 
-    const merged = [];
+    if (active === 'photo') return packList(photos.map(mapPhoto));
+    if (active === 'video') return packList(videos.map(mapVideo));
+
+    // 'all' tab: Interleave tall cards with stacked pairs
+    // Column rhythm: [1 Tall, 2 Short, 1 Tall, 2 Short...]
+    const pList = photos.map(mapPhoto);
+    const vList = videos.map(mapVideo);
+    const columns = [];
     let pi = 0, vi = 0;
-    while (pi < photoItems.length || vi < videoItems.length) {
-      if (pi < photoItems.length) merged.push(photoItems[pi++]);
-      if (pi < photoItems.length) merged.push(photoItems[pi++]);
-      if (vi < videoItems.length) merged.push(videoItems[vi++]);
+
+    // First column: Tall photo
+    if (pi < pList.length) {
+      columns.push([{ ...pList[pi++], tall: true }]);
     }
-    return merged;
+
+    while (pi < pList.length || vi < vList.length) {
+      // 1. Stacked pair of 2 items (filling row 1 & row 2 completely)
+      const pair = [];
+      if (pi < pList.length) pair.push({ ...pList[pi++], tall: false });
+      if (pi < pList.length) pair.push({ ...pList[pi++], tall: false });
+      else if (vi < vList.length) pair.push({ ...vList[vi++], tall: false });
+
+      if (pair.length === 2) {
+        columns.push(pair);
+      } else if (pair.length === 1) {
+        // Lone item becomes tall to fill its column
+        columns.push([{ ...pair[0], tall: true }]);
+      }
+
+      // 2. Tall featured card (vertical video reel)
+      if (vi < vList.length) {
+        columns.push([{ ...vList[vi++], tall: true }]);
+      } else if (pi < pList.length) {
+        columns.push([{ ...pList[pi++], tall: true }]);
+      }
+    }
+
+    return columns.flat();
   }, [photos, videos, active]);
 
   const isPending = photosLoading || videosLoading;
@@ -227,7 +274,7 @@ export default function MediaGallery() {
         >
           <div
             ref={trackRef}
-            className="grid grid-flow-col auto-cols-[minmax(230px,1fr)] grid-rows-2 gap-4 md:auto-cols-[minmax(260px,1fr)] will-change-transform"
+            className="grid grid-flow-col [grid-auto-flow:column_dense] auto-cols-[minmax(230px,1fr)] grid-rows-2 gap-4 md:auto-cols-[minmax(260px,1fr)] will-change-transform"
             style={{ gridTemplateRows: 'repeat(2, 170px)' }}
           >
             {items.map((mediaItem) =>
