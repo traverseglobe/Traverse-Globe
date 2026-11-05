@@ -523,8 +523,10 @@
      snap-start pulls the first card flush to the screen edge. */
   .rail-bleed {
     --rail-gutter: 1rem;
-    padding-inline: var(--rail-gutter);
-    scroll-padding-inline: var(--rail-gutter);
+    margin-inline-start: var(--rail-gutter);
+    padding-inline-end: var(--rail-gutter);
+    scroll-padding-inline-start: 0px;
+    scroll-padding-inline-end: var(--rail-gutter);
   }
   @media (min-width: 768px) {
     .rail-bleed { --rail-gutter: 1.5rem; }

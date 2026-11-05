@@ -2,7 +2,7 @@ import { ShieldCheck, Users, Star, Headphones } from 'lucide-react';
 
 const DEFAULT_ITEMS = [
   { icon: ShieldCheck, label: 'Secure bookings', sub: 'Razorpay + PayTabs' },
-  { icon: Users, label: '10,000+ families', sub: 'served since 2018' },
+  { icon: Users, label: '100+ families', sub: 'served since 2024' },
   { icon: Star, label: '4.8 average rating', sub: 'across Google + WhatsApp' },
   { icon: Headphones, label: '24/7 WhatsApp support', sub: 'in Hindi + Arabic' },
 ];

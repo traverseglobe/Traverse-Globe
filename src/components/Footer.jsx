@@ -119,7 +119,7 @@ const Footer = () => {
         <div className="mt-12 pt-8 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { icon: ShieldCheck, label: 'Secure bookings' },
-            { icon: Award, label: '10,000+ families served' },
+            { icon: Award, label: '100+ families served' },
             { icon: Lock, label: 'Fixed prices, no hidden fees' },
             { icon: Phone, label: '24/7 expert support' },
           ].map((item) => (

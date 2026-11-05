@@ -458,6 +458,34 @@ export async function searchHotels(keyword, limit = 25) {
 }
 
 /**
+ * Premium Dubai packages: 4★ visa and 5★ (with/without visa) across all durations.
+ * Fetched by slug pattern so the section always shows exactly the right packages.
+ * @returns {Promise<Array>}
+ */
+export async function fetchPremiumPackages() {
+  const slugs = [
+    'dubai-3-nights-4-star-visa-included',
+    'dubai-3-nights-5-star-visa-included',
+    'dubai-3-nights-5-star-without-visa',
+    'dubai-4-nights-4-star-visa-included',
+    'dubai-4-nights-5-star-visa-included',
+    'dubai-4-nights-5-star-without-visa',
+    'dubai-5-nights-4-star-visa-included',
+    'dubai-5-nights-5-star-visa-included',
+    'dubai-5-nights-5-star-without-visa',
+  ];
+  try {
+    const query = `*[_type == "package" && active == true && slug.current in $slugs]
+      | order(price asc)${proj(PACKAGE_CARD)}`;
+    const data = await sanityClient.fetch(query, { slugs });
+    return data || [];
+  } catch (error) {
+    console.error('Error fetching premium packages:', error);
+    return [];
+  }
+}
+
+/**
  * Packages for the homepage carousel, featured first.
  * Replaces the old "fetch featured, and if empty fetch again" two-request waterfall:
  * ordering by featured desc puts featured packages first and still fills the carousel

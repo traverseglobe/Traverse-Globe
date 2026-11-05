@@ -1,11 +1,8 @@
+import { useHotels } from '../hooks/queries';
 import UniversalCarousel from './revamp/UniversalCarousel';
 import UniversalCard from './revamp/UniversalCard';
-
-/**
- * ActivitiesShowcase — Homepage section for curated activities/experiences.
- * Positioned after the Trust Strip, before the sales banner.
- * Activities link to their respective destination/package pages or a future /activities route.
- */
+import HotelCard from './revamp/HotelCard';
+import { SkeletonList } from './revamp/Skeletons';
 
 const activities = [
   {
@@ -59,28 +56,56 @@ const activities = [
 ];
 
 export default function ActivitiesShowcase() {
+  const { data: hotels = [], isPending: loading } = useHotels({ limit: 6 });
+
+  if (loading) {
+    return (
+      <section className="section-y bg-brand-canvas/50">
+        <div className="container-custom">
+          <SkeletonList count={4} columns={4} />
+        </div>
+      </section>
+    );
+  }
+
+  // Interleave: activity, hotel, activity, hotel, ...
+  const items = [];
+  const maxLen = Math.max(activities.length, hotels.length);
+  for (let i = 0; i < maxLen; i++) {
+    if (i < activities.length) items.push({ type: 'activity', data: activities[i], key: `act-${i}` });
+    if (i < hotels.length) items.push({ type: 'hotel', data: hotels[i], key: `hotel-${hotels[i]._id || i}` });
+  }
+
   return (
     <UniversalCarousel
-      kicker="Experiences & Excursions"
-      title="Activities you'll actually love"
-      subtitle="Curated adventures — not just packages, but memories"
+      kicker="Stays & Experiences"
+      title="Handpicked hotels & curated adventures"
+      subtitle="Verified 4★+ stays and unforgettable experiences — everything your family needs in one place."
       bg="canvas"
       slidesPerViewDesktop={4}
     >
-      {activities.map((a, i) => (
-        <UniversalCard
-          key={i}
-          image={a.image}
-          imageAlt={a.title}
-          kicker="Activity"
-          title={a.title}
-          subtitle={a.blurb}
-          badge={a.badge}
-          price={{ amount: a.price, from: true, perPerson: true }}
-          cta={{ label: 'Enquire Now', style: 'button' }}
-          href={a.link}
-        />
-      ))}
+      {items.map((item) =>
+        item.type === 'hotel' ? (
+          <HotelCard
+            key={item.key}
+            hotel={item.data}
+            size="default"
+          />
+        ) : (
+          <UniversalCard
+            key={item.key}
+            image={item.data.image}
+            imageAlt={item.data.title}
+            kicker="Activity"
+            title={item.data.title}
+            subtitle={item.data.blurb}
+            badge={item.data.badge}
+            price={{ amount: item.data.price, from: true, perPerson: true }}
+            cta={{ label: 'Enquire Now', style: 'button' }}
+            href={item.data.link}
+          />
+        )
+      )}
     </UniversalCarousel>
   );
 }

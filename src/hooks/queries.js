@@ -4,6 +4,7 @@ import {
   fetchBanners,
   fetchPackagesByCategory,
   fetchHomepagePackages,
+  fetchPremiumPackages,
   fetchPackages,
   fetchOffers,
   fetchCustomerPhotos,
@@ -54,6 +55,14 @@ export const homepagePackagesQuery = (limit = 20) => ({
 
 export function useHomepagePackages(limit = 20) {
   return useQuery(homepagePackagesQuery(limit));
+}
+
+/** Premium packages: 4★ visa + 5★ with/without visa. */
+export function usePremiumPackages() {
+  return useQuery({
+    queryKey: ['packages', 'premium'],
+    queryFn: () => fetchPremiumPackages(),
+  });
 }
 
 /** Packages in a category (card fields). */

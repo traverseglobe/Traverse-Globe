@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
  */
 export default function Trust() {
   const stats = [
-    { icon: Users, num: '10,000+', label: 'families served since 2018' },
+    { icon: Users, num: '100+', label: 'families served since 2024' },
     { icon: Star, num: '4.8/5', label: 'average across Google + WhatsApp' },
     { icon: Award, num: '12', label: 'destinations, handpicked' },
     { icon: Phone, num: '24/7', label: 'expert support in Hindi + Arabic' },

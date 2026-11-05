@@ -9,7 +9,7 @@ const ExplorePrices       = lazy(() => import('../components/ExplorePrices'));
 const DubaiIntro          = lazy(() => import('../components/revamp/DubaiIntro'));
 // const CollectionGallery   = lazy(() => import('../components/revamp/CollectionGallery'));
 const MediaGallery        = lazy(() => import('../components/revamp/MediaGallery'));
-const HomeHotels          = lazy(() => import('../components/HomeHotels'));
+const HomePremiumPackages = lazy(() => import('../components/HomePremiumPackages'));
 const ActivitiesShowcase  = lazy(() => import('../components/ActivitiesShowcase'));
 const SalesBanner         = lazy(() => import('../components/revamp/SalesBanner'));
 const FeedbackSection     = lazy(() => import('../components/FeedbackSection'));
@@ -99,8 +99,8 @@ const Home = () => {
       </Section>
       ── */}
 
-      {/* ── 4. Hotel cards carousel ── */}
-      <Section height={[760, 795]}><HomeHotels /></Section>
+      {/* ── 4. Premium 4★ & 5★ package carousel ── */}
+      <Section height={[760, 795]}><HomePremiumPackages /></Section>
 
       {/* ── 5. Full-bleed CMS-driven promotional / sales banner ── */}
       <Section height={[715, 330]}><SalesBanner /></Section>

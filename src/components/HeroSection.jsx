@@ -138,7 +138,7 @@ const HeroSection = () => {
                 <dt className="sr-only">families served</dt>
                 <dd>
                   <span className="block font-poppins font-bold text-2xl md:text-3xl text-white leading-none">
-                    <NumberTicker value={10000} suffix="+" delay={0.5} animate={!skipIntro} />
+                    <NumberTicker value={100} suffix="+" delay={0.5} animate={!skipIntro} />
                   </span>
                   <span className="mt-1.5 block text-[11px] font-poppins uppercase tracking-widest text-white/65">
                     families served
@@ -163,7 +163,7 @@ const HeroSection = () => {
                 <dt className="sr-only">planning trips since</dt>
                 <dd>
                   <span className="block font-poppins font-bold text-2xl md:text-3xl text-white leading-none tabular-nums">
-                    <span className="text-white/60 text-lg md:text-xl font-semibold">Since </span>2018
+                    <span className="text-white/60 text-lg md:text-xl font-semibold">Since </span>2024
                   </span>
                   <span className="mt-1.5 block text-[11px] font-poppins uppercase tracking-widest text-white/65">
                     planning trips
