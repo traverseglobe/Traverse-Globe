@@ -34,7 +34,7 @@ function VideoCard({ video }) {
       >
         {/* Poster — always visible until video plays */}
         <ImageWithFallback
-          src={video.poster}
+          src={video.poster || (video._id ? `/reels-posters/${video._id}.jpg` : '')}
           alt={video.title || video.customerName || 'Video testimonial'}
           className="absolute inset-0 w-full h-full object-cover"
           loading="lazy"

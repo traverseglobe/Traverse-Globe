@@ -41,6 +41,7 @@ function VideoTile({ item }) {
           src={item.videoUrl}
           poster={item.image || undefined}
           controls
+          autoPlay
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -52,6 +53,14 @@ function VideoTile({ item }) {
               alt={item.title}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
+            />
+          ) : item.videoUrl ? (
+            <video
+              src={`${item.videoUrl}#t=0.001`}
+              preload="metadata"
+              playsInline
+              muted
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 pointer-events-none"
             />
           ) : (
             <div className="absolute inset-0 bg-gradient-to-br from-[#0c1220] via-[#162033] to-[#1a1a2e]">
@@ -112,7 +121,7 @@ export default function MediaGallery() {
       type: 'video',
       title: v.title || v.destination || 'Trip video',
       subtitle: v.customerName,
-      image: v.poster ? resolveImageUrl(v.poster, { width: 480 }) : '',
+      image: v.poster ? resolveImageUrl(v.poster, { width: 480 }) : (v._id ? `/reels-posters/${v._id}.jpg` : ''),
       videoUrl: v.videoUrl,
       tall: i % 3 === 0,
     }));
