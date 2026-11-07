@@ -1,43 +1,8 @@
-import { Suspense, lazy, useEffect, useRef, useState } from 'react';
-import { CheckCircle2, Phone, ShieldCheck, Clock, Award } from 'lucide-react';
+import { Phone, ShieldCheck, Clock, Award } from 'lucide-react';
 import { companyInfo } from '../data/companyInfo';
 import Kicker from './revamp/Kicker';
 import SectionRule from './revamp/SectionRule';
-
-const Globe = lazy(() => import('@/components/magicui/Globe'));
-
-const GLOBE_PLACEHOLDER = (
-  <div
-    className="mx-auto aspect-square w-full max-w-[460px] animate-pulse rounded-full border border-brand-hairline bg-teal/5 ring-1 ring-inset ring-teal/10"
-    aria-hidden="true"
-  />
-);
-
-function useNearViewportIdle(ref, rootMargin = '200px') {
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el || ready) return undefined;
-    let idleId = 0;
-    let timeoutId = 0;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      observer.disconnect();
-      if ('requestIdleCallback' in window) {
-        idleId = window.requestIdleCallback(() => setReady(true), { timeout: 1200 });
-      } else {
-        timeoutId = window.setTimeout(() => setReady(true), 200);
-      }
-    }, { rootMargin });
-    observer.observe(el);
-    return () => {
-      observer.disconnect();
-      if (idleId) window.cancelIdleCallback(idleId);
-      if (timeoutId) window.clearTimeout(timeoutId);
-    };
-  }, [ref, rootMargin, ready]);
-  return ready;
-}
+import ContactEnquiryForm from './ContactEnquiryForm';
 
 /**
  * WhyChooseUs — REVAMP_PLAN §3 #8, #14, #15 & §4.4
@@ -45,9 +10,6 @@ function useNearViewportIdle(ref, rootMargin = '200px') {
  * - Right column: Engaging Scuba / Adventure video player with poster fallback
  */
 export default function WhyChooseUs() {
-  const globeRef = useRef(null);
-  const showGlobe = useNearViewportIdle(globeRef);
-
   return (
     <section className="section-y bg-brand-canvas/50">
       <div className="container-custom">
@@ -59,7 +21,7 @@ export default function WhyChooseUs() {
             </Kicker>
             <SectionRule className="mb-4" />
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-poppins font-bold text-brand-ink mb-4 leading-tight">
-              Why Travel With {companyInfo.name}?
+              Why {companyInfo.name}?
             </h2>
 
             {/* Refined 5–10 crisp lines of high-impact copy */}
@@ -104,19 +66,16 @@ export default function WhyChooseUs() {
             </div>
           </div>
 
-          {/* Right Column: Interactive 3D Globe (5/12) */}
+          {/* Right Column: Enquiry Form (5/12) */}
           <div className="lg:col-span-5">
-            <div ref={globeRef} className="relative mx-auto w-full max-w-[460px]">
-              {showGlobe ? (
-                <Suspense fallback={GLOBE_PLACEHOLDER}>
-                  <Globe className="mx-auto px-0" activeRoute="dxb" />
-                </Suspense>
-              ) : (
-                GLOBE_PLACEHOLDER
-              )}
-              <p className="mt-2 text-center font-canva-sans text-xs text-brand-muted-ink">
-                Drag to explore · scroll or pinch to zoom
+            <div className="rounded-2xl border border-brand-hairline bg-surface p-5 md:p-6 shadow-soft-md">
+              <h3 className="text-lg md:text-xl font-bold mb-1 text-brand-ink font-poppins">
+                Tell us about your trip
+              </h3>
+              <p className="text-brand-muted-ink text-sm mb-4 font-canva-sans">
+                Fill this in and an expert calls you back within 24 hours.
               </p>
+              <ContactEnquiryForm />
             </div>
           </div>
         </div>

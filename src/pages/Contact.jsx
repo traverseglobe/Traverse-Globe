@@ -1,6 +1,5 @@
 import { Building2, Landmark, MapPin } from 'lucide-react';
 import { companyInfo } from '../data/companyInfo';
-import ContactEnquiryForm from '../components/ContactEnquiryForm';
 import WhyChooseUs from '../components/WhyChooseUs';
 import WhatsAppIcon from '../components/icons/WhatsAppIcon';
 
@@ -39,24 +38,8 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Why travel with us — moved here from the home page */}
+      {/* Why travel with us + inline enquiry form */}
       <WhyChooseUs />
-
-      {/* The form itself — "Contact Us" should land on something you can fill in,
-          not just a list of office addresses. */}
-      <section className="py-8" aria-labelledby="enquiry-form">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto rounded-2xl border border-brand-hairline bg-surface p-6 md:p-8 shadow-soft-md">
-            <h2 id="enquiry-form" className="text-2xl md:text-3xl font-bold mb-2 text-brand-ink">
-              Tell us about your trip
-            </h2>
-            <p className="text-brand-muted-ink mb-6">
-              Fill this in and an expert calls you back within 24 hours — or message us on WhatsApp for an instant reply.
-            </p>
-            <ContactEnquiryForm />
-          </div>
-        </div>
-      </section>
 
       {/* India Offices */}
       <section className="py-6" aria-labelledby="india-offices">
@@ -179,7 +162,7 @@ export default function Contact() {
           </h2>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden shadow">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3460.9169472391054!2d76.9920!3d29.6920!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390e6f54b66b4457%3A0xc348b94090b84039!2sSector%2013%2C%20Karnal%2C%20Haryana%20132001%2C%20India!5e0!3m2!1sen!2sus!4v1714571021481!5m2!1sen!2sus"
+              src="https://www.google.com/maps?q=352+Diwan+Colony+Sector+13+Karnal+Haryana+132001+India&output=embed"
               width="100%"
               height="100%"
               style={{ border: 0 }}
