@@ -15,7 +15,6 @@ const SalesBanner         = lazy(() => import('../components/revamp/SalesBanner'
 const FeedbackSection     = lazy(() => import('../components/FeedbackSection'));
 const BrochureBanner      = lazy(() => import('../components/revamp/BrochureBanner'));
 const HomeBlogSection     = lazy(() => import('../components/HomeBlogSection'));
-const HomePackagesSection = lazy(() => import('../components/HomePackagesSection'));
 const HomeFAQ             = lazy(() => import('../components/revamp/HomeFAQ'));
 
 /**
@@ -118,10 +117,7 @@ const Home = () => {
       {/* ── 8. Blog / Travel Guides (above FAQ) ── */}
       <Section height={[665, 680]}><HomeBlogSection /></Section>
 
-      {/* ── 9. Trending packages grid (4 cards + see-more CTA) ── */}
-      <Section height={[760, 795]}><HomePackagesSection /></Section>
-
-      {/* ── 10. FAQ ── */}
+      {/* ── 9. FAQ ── */}
       <Section height={[700, 680]}><HomeFAQ /></Section>
     </div>
   );

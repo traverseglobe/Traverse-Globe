@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import HomePackagesSection from '../components/HomePackagesSection';
 
 const heroImages = [
   'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1280&q=50&fm=webp',
@@ -289,12 +290,12 @@ export default function Blog() {
               <Link to={p.url || `/guides/${p.slug}`} key={p.id} className="group flex flex-col bg-surface rounded-2xl shadow-soft-sm hover:shadow-soft-xl border border-brand-hairline overflow-hidden transition-[transform,box-shadow] hover:-translate-y-1">
                 {p.image && (
                   <div className={cn("relative overflow-hidden bg-brand-canvas-2", CARD_MEDIA)}>
-                    <img 
-                      src={(p.image.includes('images.unsplash.com') ? p.image.replace(/q=\d+/, 'q=50') + (p.image.includes('fm=') ? '' : '&fm=webp') : p.image)} 
+                    <img
+                      src={(p.image.includes('images.unsplash.com') ? p.image.replace(/q=\d+/, 'q=50') + (p.image.includes('fm=') ? '' : '&fm=webp') : p.image)}
                       srcSet={`${p.image.replace(/w=\d+/, 'w=400').replace(/q=\d+/, 'q=50')} 400w, ${p.image.replace(/w=\d+/, 'w=600').replace(/q=\d+/, 'q=50')} 600w, ${p.image.replace(/w=\d+/, 'w=800').replace(/q=\d+/, 'q=50')} 800w`}
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      alt={p.title} 
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]" 
+                      alt={p.title}
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
                       loading="lazy"
                       decoding="async"
                     />
@@ -322,6 +323,9 @@ export default function Blog() {
           </div>
         </div>
       </section>
+
+      {/* Packages section below guides */}
+      <HomePackagesSection />
     </div>
   );
 }
