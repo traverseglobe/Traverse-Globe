@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { renderingPrerender } from '@/lib/hydration';
 import { REVEAL_VIEWPORT, riseItem, staggerParent } from '@/lib/motionVariants';
-import { PhoneCall, PlaneTakeoff, Star } from 'lucide-react';
+import { PhoneCall, Star } from 'lucide-react';
 import { HERO_WIDTHS } from '@/lib/sanityImage';
 import ImageWithFallback from './revamp/ImageWithFallback';
 import Kicker from './revamp/Kicker';
@@ -80,7 +80,6 @@ const HeroSection = () => {
           <motion.div variants={parent} initial={intro} animate="show">
             <motion.div variants={item}>
               <Kicker tone="orange" size="lg" className="text-white/90 mb-3 md:mb-4">
-                <PlaneTakeoff className="inline-block w-4 h-4 mr-1.5 -mt-0.5" aria-hidden="true" />
                 ✈️ Your Journey Begins…
               </Kicker>
             </motion.div>
