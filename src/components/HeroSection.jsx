@@ -81,7 +81,7 @@ const HeroSection = () => {
             <motion.div variants={item}>
               <Kicker tone="orange" size="lg" className="text-white/90 mb-3 md:mb-4">
                 <PlaneTakeoff className="inline-block w-4 h-4 mr-1.5 -mt-0.5" aria-hidden="true" />
-                Your Journey Begins
+                ✈️ Your Journey Begins…
               </Kicker>
             </motion.div>
 
