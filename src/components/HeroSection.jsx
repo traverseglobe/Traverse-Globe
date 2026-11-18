@@ -31,7 +31,7 @@ import NumberTicker from './magicui/NumberTicker';
 // or the browser downloads the preload and then the real image as well.
 // LOCAL TESTING: desert group photo served from public/. Previous value:
 // 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1920&q=80'
-const HERO_IMAGE = '/hero-desert-group.png';
+const HERO_IMAGE = '/hero-desert-group.webp';
 
 const HeroSection = () => {
   // When the hero arrived as pre-rendered HTML it is already on screen, so replaying
