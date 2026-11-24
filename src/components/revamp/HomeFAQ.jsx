@@ -38,7 +38,7 @@ const FAQS = [
 
 export default function HomeFAQ() {
   return (
-    <Section kicker="Common questions" title="Answers before you ask" bg="white">
+    <Section kicker="Common questions" title="Answers before you ask" bg="white" accentRule>
       <div className="max-w-3xl">
         <Accordion type="single" collapsible>
           {FAQS.map((f, i) => (
