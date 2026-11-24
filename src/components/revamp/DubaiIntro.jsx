@@ -71,9 +71,9 @@ export default function DubaiIntro() {
                 <dt className="text-[10px] font-poppins font-semibold uppercase tracking-widest text-brand-muted-ink">
                   <span
                     aria-hidden="true"
-                    className="absolute left-3.5 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-xl bg-brand-orange/10"
+                    className="absolute left-3.5 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-xl bg-brand-teal/10"
                   >
-                    <Icon className="h-[18px] w-[18px] text-brand-orange" />
+                    <Icon className="h-[18px] w-[18px] text-brand-teal" />
                   </span>
                   {label}
                 </dt>
