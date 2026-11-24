@@ -1,7 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { CalendarDays, Plane, ShieldCheck, Wallet } from 'lucide-react';
 import Kicker from './Kicker';
-import SectionRule from './SectionRule';
 
 const FACTS = [
   { icon: CalendarDays, label: 'Best months', value: 'Nov – Mar' },
@@ -35,11 +34,21 @@ export default function DubaiIntro() {
           viewport={{ once: true, margin: '-80px' }}
         >
           <motion.div variants={item}>
-            <Kicker className="mb-3 block">Why Dubai</Kicker>
+            <Kicker className="mb-3 block text-brand-teal">Why Dubai</Kicker>
           </motion.div>
 
           <motion.div variants={item}>
-            <SectionRule className="mb-4" />
+            {/* Full-width divider with an orange tip (Option 2 palette). Scoped
+                here rather than in SectionRule so other sections keep the plain
+                hairline. Uses the --c-* theme vars so it also follows dark mode. */}
+            <span
+              aria-hidden="true"
+              className="mb-4 block h-0.5 w-full rounded-full"
+              style={{
+                background:
+                  'linear-gradient(90deg, rgb(var(--c-orange)) 0%, rgb(var(--c-orange) / 0.25) 20%, rgb(var(--c-hairline)) 20%)',
+              }}
+            />
           </motion.div>
 
           <motion.h2
