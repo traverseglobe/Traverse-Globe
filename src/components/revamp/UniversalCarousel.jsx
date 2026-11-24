@@ -39,6 +39,7 @@ export default function UniversalCarousel({
   slidesPerViewDesktop = 4,
   viewAllHref,
   viewAllLabel = 'View all',
+  accentRule = false,
   children,
   className,
 }) {
@@ -74,7 +75,21 @@ export default function UniversalCarousel({
             </motion.div>
           )}
           <motion.div variants={item}>
-            <SectionRule className="mb-4" />
+            {accentRule ? (
+              // Full-width divider with an orange tip (Option 2 palette), opt-in
+              // per band so other carousels keep the plain hairline. Uses --c-*
+              // vars so it follows dark mode too.
+              <span
+                aria-hidden="true"
+                className="mb-4 block h-0.5 w-full rounded-full"
+                style={{
+                  background:
+                    'linear-gradient(90deg, rgb(var(--c-orange)) 0%, rgb(var(--c-orange) / 0.25) 20%, rgb(var(--c-hairline)) 20%)',
+                }}
+              />
+            ) : (
+              <SectionRule className="mb-4" />
+            )}
           </motion.div>
           <motion.h2 variants={item} className="font-poppins font-bold text-h2 text-brand-ink leading-tight">
             {title}
