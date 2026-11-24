@@ -30,8 +30,7 @@ export const companyInfo = {
       city: "Noida"
     },
     dubai: {
-      corporate: "Traverse Globe Middleeast DMCC, 1103, Fortune tower Cluster C, JLT, Dubai, UAE",
-      branch: "42-02 Opal Tower, Business Bay, Near: Burj Khalifa, Dubai, UAE"
+      full: "3B - Al Sharhan Building, Al Nahda 2, Dubai, UAE"
     }
   },
   social: {

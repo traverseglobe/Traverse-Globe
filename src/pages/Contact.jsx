@@ -121,8 +121,7 @@ export default function Contact() {
               <h3 className="text-xl font-bold text-brand-ink">Dubai</h3>
               <address className="not-italic text-brand-muted-ink mt-2 space-y-3">
                 <div>
-                  <strong className="font-semibold">Corporate Office:</strong><br />
-                  {companyInfo.address.dubai.corporate}
+                  {companyInfo.address.dubai.full}
                 </div>
                 <div className="text-sm">
                   <a href={`mailto:${companyInfo.email.primary}`} className="hover:text-orange hover:underline font-medium">
@@ -130,22 +129,6 @@ export default function Contact() {
                   </a><br />
                   <a href={companyInfo.website} target="_blank" rel="noreferrer" className="hover:text-orange hover:underline font-medium">
                     Website: {companyInfo.website.replace('https://', 'www.')}
-                  </a>
-                </div>
-                <hr className="border-brand-hairline" />
-                <div>
-                  <strong className="font-semibold">Retail Office:</strong><br />
-                  {companyInfo.address.dubai.branch}
-                </div>
-                <div className="text-sm">
-                  <a href={`mailto:${companyInfo.email.primary}`} className="hover:text-orange hover:underline font-medium">
-                    Email: {companyInfo.email.primary}
-                  </a><br />
-                  <a href={companyInfo.website} target="_blank" rel="noreferrer" className="hover:text-orange hover:underline font-medium">
-                    Website: {companyInfo.website.replace('https://', 'www.')}
-                  </a><br />
-                  <a href="tel:043035888" className="hover:text-orange hover:underline font-medium">
-                    Call Us: 043035888
                   </a>
                 </div>
               </address>
