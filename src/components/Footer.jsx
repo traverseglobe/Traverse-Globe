@@ -80,7 +80,7 @@ const Footer = () => {
               </a>
 
               <a
-                href={companyInfo.address.karnal.mapLink}
+                href={companyInfo.address.delhi.mapLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-start gap-3 text-sm text-white/80 hover:text-white transition-colors"
@@ -88,7 +88,7 @@ const Footer = () => {
                 <span className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <MapPin className="w-4 h-4 text-brand-orange" />
                 </span>
-                <span>{companyInfo.address.karnal.full}</span>
+                <span>{companyInfo.address.delhi.full}</span>
               </a>
             </div>
           </div>

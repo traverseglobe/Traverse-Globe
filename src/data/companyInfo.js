@@ -17,17 +17,13 @@ export const companyInfo = {
   phone: {
     primary: "+91 9997085457",
     whatsapp: "919997085457",
-    noida: "+91 9520232324"
+    dubai: "+971 55 485 8225"
   },
   address: {
-    karnal: {
-      full: "352, Diwan Colony, near Virk Hospital, Urban Estate, Sector 13, Karnal, Haryana 132001",
-      city: "Karnal, Haryana",
-      mapLink: "https://maps.app.goo.gl/oPShVDMztyVRTR42F"
-    },
-    noida: {
-      full: "H - 173, Sector -63 Noida Uttar Pradesh, Near Noida Electronic City metro station - 201301",
-      city: "Noida"
+    delhi: {
+      full: "3rd Floor, L2- 253, Baba Gangnath Market, Munirka, New Delhi, Delhi 110067",
+      city: "Delhi",
+      mapLink: "https://www.google.com/maps/search/?api=1&query=Baba+Gangnath+Market+Munirka+New+Delhi+110067"
     },
     dubai: {
       full: "3B - Al Sharhan Building, Al Nahda 2, Dubai, UAE"

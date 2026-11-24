@@ -41,71 +41,43 @@ export default function Contact() {
       {/* Why travel with us + inline enquiry form */}
       <WhyChooseUs />
 
-      {/* India Offices */}
+      {/* India Office */}
       <section className="py-6" aria-labelledby="india-offices">
         <div className="container mx-auto px-4">
           <h2 id="india-offices" className="text-2xl md:text-3xl font-bold mb-6 text-brand-ink">
-            Our Offices Within <em>India</em>
+            Our Office Within <em>India</em>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Karnal Office */}
-            <article className="bg-surface rounded-2xl border border-brand-hairline shadow-soft-md p-6 flex gap-4 items-start">
-              <OfficeMarker icon={Landmark} />
-              <div>
-                <h3 className="text-xl font-bold text-brand-ink">{companyInfo.address.karnal.city}</h3>
-                <address className="not-italic text-brand-muted-ink mt-1">
-                  {companyInfo.address.karnal.full}
-                </address>
-                <div className="mt-2 space-y-1 text-sm text-brand-muted-ink">
-                  <div>
-                    <a href={`mailto:${companyInfo.email.primary}`} className="hover:text-orange hover:underline font-medium">
-                      Email us: {companyInfo.email.primary}
-                    </a>
-                  </div>
-                  <div>
-                    Call us: <a href={`tel:${companyInfo.phone.primary}`} className="hover:text-orange hover:underline font-medium">{companyInfo.phone.primary}</a>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span>WhatsApp:</span>
-                    <WhatsAppIcon className="w-4 h-4 text-[#25D366]" aria-hidden="true" />
-                    <a className="hover:text-orange hover:underline font-medium" href={`https://wa.me/${companyInfo.phone.whatsapp}?text=${encodeURIComponent(companyInfo.name)}`}>
-                      {companyInfo.phone.primary}
-                    </a>
-                  </div>
-                  <div className="mt-2">
-                    <a href={companyInfo.address.karnal.mapLink} target="_blank" rel="noopener noreferrer" className="text-orange hover:underline font-medium flex items-center gap-1">
-                      <MapPin className="w-4 h-4" aria-hidden="true" /> View on Google Maps
-                    </a>
-                  </div>
+          <article className="bg-surface rounded-2xl border border-brand-hairline shadow-soft-md p-6 flex gap-4 items-start">
+            <OfficeMarker icon={Landmark} />
+            <div>
+              <h3 className="text-xl font-bold text-brand-ink">{companyInfo.address.delhi.city}</h3>
+              <address className="not-italic text-brand-muted-ink mt-1">
+                {companyInfo.address.delhi.full}
+              </address>
+              <div className="mt-2 space-y-1 text-sm text-brand-muted-ink">
+                <div>
+                  <a href={`mailto:${companyInfo.email.primary}`} className="hover:text-orange hover:underline font-medium">
+                    Email us: {companyInfo.email.primary}
+                  </a>
+                </div>
+                <div>
+                  Call us: <a href={`tel:${companyInfo.phone.primary.replace(/\s/g, '')}`} className="hover:text-orange hover:underline font-medium">{companyInfo.phone.primary}</a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span>WhatsApp:</span>
+                  <WhatsAppIcon className="w-4 h-4 text-[#25D366]" aria-hidden="true" />
+                  <a className="hover:text-orange hover:underline font-medium" href={`https://wa.me/${companyInfo.phone.whatsapp}?text=${encodeURIComponent(companyInfo.name)}`}>
+                    {companyInfo.phone.primary}
+                  </a>
+                </div>
+                <div className="mt-2">
+                  <a href={companyInfo.address.delhi.mapLink} target="_blank" rel="noopener noreferrer" className="text-orange hover:underline font-medium flex items-center gap-1">
+                    <MapPin className="w-4 h-4" aria-hidden="true" /> View on Google Maps
+                  </a>
                 </div>
               </div>
-            </article>
-
-            {/* Noida Office */}
-            <article className="bg-surface rounded-2xl border border-brand-hairline shadow-soft-md p-6 flex gap-4 items-start">
-              <OfficeMarker icon={Building2} />
-              <div>
-                <h3 className="text-xl font-bold text-brand-ink">{companyInfo.address.noida.city}</h3>
-                <address className="not-italic text-brand-muted-ink mt-1">
-                  {companyInfo.address.noida.full}
-                </address>
-                <div className="mt-2 space-y-1 text-sm text-brand-muted-ink">
-                  <div>
-                    <a href={`mailto:${companyInfo.email.primary}`} className="hover:text-orange hover:underline font-medium">
-                      Email us: {companyInfo.email.primary}
-                    </a>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span>WhatsApp:</span>
-                    <WhatsAppIcon className="w-4 h-4 text-[#25D366]" aria-hidden="true" />
-                    <a className="hover:text-orange hover:underline font-medium" href={`https://wa.me/${companyInfo.phone.noida.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(companyInfo.name)}`}>
-                      {companyInfo.phone.noida}
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </article>
-          </div>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -127,6 +99,7 @@ export default function Contact() {
                   <a href={`mailto:${companyInfo.email.primary}`} className="hover:text-orange hover:underline font-medium">
                     Email: {companyInfo.email.primary}
                   </a><br />
+                  Call: <a href={`tel:${companyInfo.phone.dubai.replace(/\s/g, '')}`} className="hover:text-orange hover:underline font-medium">{companyInfo.phone.dubai}</a><br />
                   <a href={companyInfo.website} target="_blank" rel="noreferrer" className="hover:text-orange hover:underline font-medium">
                     Website: {companyInfo.website.replace('https://', 'www.')}
                   </a>
@@ -145,19 +118,19 @@ export default function Contact() {
           </h2>
           <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden shadow">
             <iframe
-              src="https://www.google.com/maps?q=352+Diwan+Colony+Sector+13+Karnal+Haryana+132001+India&output=embed"
+              src="https://www.google.com/maps?q=Baba+Gangnath+Market+Munirka+New+Delhi+110067&output=embed"
               width="100%"
               height="100%"
               style={{ border: 0 }}
               allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Traverse Globe Karnal Office Location Map"
+              title="Traverse Globe Delhi Office Location Map"
             ></iframe>
           </div>
           <div className="mt-4 text-center">
-            <a 
-              href={companyInfo.address.karnal.mapLink} 
+            <a
+              href={companyInfo.address.delhi.mapLink}
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-brand-scrim text-white px-6 py-3 rounded-full hover:bg-brand-scrim/90 transition-[background-color] font-medium"
