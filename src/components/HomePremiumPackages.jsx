@@ -25,6 +25,7 @@ const HomePremiumPackages = () => {
       subtitle="Luxury stays with visa included — handpicked 4-star and 5-star properties for families."
       bg="canvas"
       slidesPerViewDesktop={4}
+      accentRule
     >
       {packages.map((pkg, i) => (
         <PackageCard

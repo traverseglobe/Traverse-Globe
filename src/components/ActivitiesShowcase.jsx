@@ -83,6 +83,7 @@ export default function ActivitiesShowcase() {
       subtitle="Verified 4★+ stays and unforgettable experiences — everything your family needs in one place."
       bg="canvas"
       slidesPerViewDesktop={4}
+      accentRule
     >
       {items.map((item) =>
         item.type === 'hotel' ? (

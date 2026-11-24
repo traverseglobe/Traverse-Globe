@@ -19,6 +19,7 @@ export default function Section({
   fullBleed = false,
   className,
   headerAlign = "left",
+  accentRule = false,
   id,
 }) {
   // Translucent tints only, no backdrop-filter: a blur here sits over the fixed
@@ -58,7 +59,7 @@ export default function Section({
               )}
               <SectionRule
                 width="sm"
-                tone={bg === "ink" ? "orange" : "default"}
+                tone={accentRule ? "accent" : bg === "ink" ? "orange" : "default"}
                 className={cn(headerAlign === "center" && "mx-auto")}
               />
               {subtitle && (

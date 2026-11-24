@@ -212,7 +212,7 @@ const DESTINATION_FALLBACK_PHOTOS = {
         <div className="mb-5 md:mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
           <div className="max-w-2xl">
             <Kicker className="mb-3 block">Verified reviews</Kicker>
-            <SectionRule className="mb-4" />
+            <SectionRule tone="accent" className="mb-4" />
             <h2 className="font-poppins font-bold text-h2 text-brand-ink leading-tight">
               What travellers say about us
             </h2>
