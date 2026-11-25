@@ -149,41 +149,13 @@ export default function MediaGallery() {
     if (active === 'photo') return packList(photos.map(mapPhoto));
     if (active === 'video') return packList(videos.map(mapVideo));
 
-    // 'all' tab: Interleave tall cards with stacked pairs
-    // Column rhythm: [1 Tall, 2 Short, 1 Tall, 2 Short...]
+    // 'all' tab: reels/videos first, then photos. Both lists run through the
+    // same gapless packer the single-type tabs use (tall card = one full
+    // column, two shorts = one full column), so the two-row grid stays
+    // completely filled with no empty cells — only the order changes.
     const pList = photos.map(mapPhoto);
     const vList = videos.map(mapVideo);
-    const columns = [];
-    let pi = 0, vi = 0;
-
-    // First column: Tall photo
-    if (pi < pList.length) {
-      columns.push([{ ...pList[pi++], tall: true }]);
-    }
-
-    while (pi < pList.length || vi < vList.length) {
-      // 1. Stacked pair of 2 items (filling row 1 & row 2 completely)
-      const pair = [];
-      if (pi < pList.length) pair.push({ ...pList[pi++], tall: false });
-      if (pi < pList.length) pair.push({ ...pList[pi++], tall: false });
-      else if (vi < vList.length) pair.push({ ...vList[vi++], tall: false });
-
-      if (pair.length === 2) {
-        columns.push(pair);
-      } else if (pair.length === 1) {
-        // Lone item becomes tall to fill its column
-        columns.push([{ ...pair[0], tall: true }]);
-      }
-
-      // 2. Tall featured card (vertical video reel)
-      if (vi < vList.length) {
-        columns.push([{ ...vList[vi++], tall: true }]);
-      } else if (pi < pList.length) {
-        columns.push([{ ...pList[pi++], tall: true }]);
-      }
-    }
-
-    return columns.flat();
+    return packList([...vList, ...pList]);
   }, [photos, videos, active]);
 
   const isPending = photosLoading || videosLoading;
