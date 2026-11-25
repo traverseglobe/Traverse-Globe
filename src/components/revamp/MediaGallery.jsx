@@ -175,9 +175,8 @@ export default function MediaGallery() {
   return (
     <section className="section-y overflow-hidden bg-brand-canvas-2/65">
       <div className="container-custom">
-        <div className="mb-6 md:mb-8 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+        <div className="mb-6 md:mb-8">
           <motion.div
-            className="max-w-2xl"
             variants={parent}
             initial="hidden"
             whileInView="show"
@@ -192,46 +191,51 @@ export default function MediaGallery() {
             <motion.h2 variants={item} className="font-poppins font-bold text-h2 text-brand-ink leading-tight">
               Moments from our travellers
             </motion.h2>
-            <motion.p variants={item} className="mt-2 text-brand-muted-ink font-canva-sans text-sm md:text-base leading-relaxed">
+            <motion.p variants={item} className="mt-2 max-w-2xl text-brand-muted-ink font-canva-sans text-sm md:text-base leading-relaxed">
               Photos and videos shared by families who travelled with us — no stock images, no filters.
             </motion.p>
-          </motion.div>
 
-          <div className="flex flex-wrap gap-2 shrink-0" role="tablist" aria-label="Filter media">
-            {TABS.map((t) => {
-              const isActive = active === t.value;
-              return (
-                <motion.button
-                  key={t.value}
-                  role="tab"
-                  aria-selected={isActive}
-                  onClick={() => {
-                    setActive(t.value);
-                    scrollerRef.current?.scrollTo({ left: 0, behavior: 'auto' });
-                  }}
-                  whileHover={reduceMotion ? {} : { scale: 1.02 }}
-                  whileTap={reduceMotion ? {} : { scale: 0.97 }}
-                  transition={TAB_SPRING}
-                  className={cn(
-                    'relative rounded-full px-4 py-2 text-sm font-poppins font-medium border transition-colors duration-200',
-                    isActive
-                      ? 'border-brand-orange text-white'
-                      : 'bg-surface text-brand-ink border-brand-hairline hover:border-brand-orange/50 hover:text-brand-orange'
-                  )}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId={reduceMotion ? undefined : 'mediaTabPill'}
-                      className="absolute inset-0 rounded-full bg-brand-orange shadow-glow-orange"
-                      transition={TAB_SPRING}
-                      aria-hidden="true"
-                    />
-                  )}
-                  <span className="relative z-10">{t.label}</span>
-                </motion.button>
-              );
-            })}
-          </div>
+            <motion.div
+              variants={item}
+              className="mt-5 flex flex-wrap gap-2"
+              role="tablist"
+              aria-label="Filter media"
+            >
+              {TABS.map((t) => {
+                const isActive = active === t.value;
+                return (
+                  <motion.button
+                    key={t.value}
+                    role="tab"
+                    aria-selected={isActive}
+                    onClick={() => {
+                      setActive(t.value);
+                      scrollerRef.current?.scrollTo({ left: 0, behavior: 'auto' });
+                    }}
+                    whileHover={reduceMotion ? {} : { scale: 1.02 }}
+                    whileTap={reduceMotion ? {} : { scale: 0.97 }}
+                    transition={TAB_SPRING}
+                    className={cn(
+                      'relative rounded-full px-4 py-2 text-sm font-poppins font-medium border transition-colors duration-200',
+                      isActive
+                        ? 'border-brand-orange text-white'
+                        : 'bg-surface text-brand-ink border-brand-hairline hover:border-brand-orange/50 hover:text-brand-orange'
+                    )}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId={reduceMotion ? undefined : 'mediaTabPill'}
+                        className="absolute inset-0 rounded-full bg-brand-orange shadow-glow-orange"
+                        transition={TAB_SPRING}
+                        aria-hidden="true"
+                      />
+                    )}
+                    <span className="relative z-10">{t.label}</span>
+                  </motion.button>
+                );
+              })}
+            </motion.div>
+          </motion.div>
         </div>
       </div>
 
