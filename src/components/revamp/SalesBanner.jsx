@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, ArrowRight, Tag, PhoneCall, Clock, CheckCircle } from 'lucide-react';
+import { Sparkles, ArrowRight, PhoneCall, Clock, CheckCircle } from 'lucide-react';
 import WhatsAppIcon from '../icons/WhatsAppIcon';
 import { companyInfo } from '../../data/companyInfo';
 import { useOffers } from '../../hooks/queries';
@@ -19,23 +18,25 @@ import ShimmerButton from '../magicui/ShimmerButton';
 export default function SalesBanner() {
   const { data: offers = [] } = useOffers(1);
   const activeOffer = offers[0] || null;
-  const [copied, setCopied] = useState(false);
 
-  const promoCode = activeOffer?.code || 'TRAVERSE35';
   const discountText = activeOffer?.discount || 'UP TO 35% OFF';
   const promoTitle = activeOffer?.title || 'Mega Holiday Season Sale — UAE & Island Escapes';
   const bgImage = activeOffer?.image || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1920&q=80';
+  const dealLink = activeOffer?.link || '/packages';
+
+  // No coupon system — highlight the best current offers instead.
+  // Edit this list (or wire it to the CMS) to match the live deals.
+  const offerHighlights = [
+    'Save up to 35% on customised family & couple trips',
+    'Visa included on select Dubai packages',
+    '4★+ hotels · all-inclusive, transparent pricing',
+    '24/7 on-ground concierge in Dubai',
+  ];
 
   const waText = encodeURIComponent(
-    `Hi Traverse Globe! I want to avail the promo code "${promoCode}" (${discountText}) for my upcoming trip.`
+    `Hi Traverse Globe! I'm interested in your current ${discountText} offer — please share the best deals for my trip.`
   );
   const waUrl = `https://wa.me/${companyInfo.phone.whatsapp}?text=${waText}`;
-
-  const handleCopyCode = () => {
-    navigator.clipboard?.writeText(promoCode);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  };
 
   return (
     // Full-bleed: this is the one promotional band that should read as a break in
@@ -109,40 +110,34 @@ export default function SalesBanner() {
               </div>
             </div>
 
-            {/* Right Column: Promo Code Card */}
+            {/* Right Column: Best Offers Highlight */}
             <div className="lg:col-span-4 flex flex-col items-center lg:items-end">
-              <div className="w-full max-w-sm rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-5 text-center text-white shadow-soft-xl">
-                <span className="text-xs font-poppins font-medium uppercase tracking-widest text-brand-orange block mb-1">
+              <div className="w-full max-w-sm rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-5 text-white shadow-soft-xl">
+                <span className="text-xs font-poppins font-medium uppercase tracking-widest text-brand-orange block mb-1 text-center lg:text-left">
                   Flash Discount
                 </span>
-                <div className="text-3xl md:text-4xl font-poppins font-black text-white tracking-tight mb-3">
+                <div className="text-3xl md:text-4xl font-poppins font-black text-white tracking-tight mb-4 text-center lg:text-left">
                   {discountText}
                 </div>
 
-                <p className="text-xs text-white/70 font-canva-sans mb-3">
-                  Apply coupon code at booking:
-                </p>
+                <ul className="space-y-2.5 mb-4">
+                  {offerHighlights.map((h) => (
+                    <li key={h} className="flex items-start gap-2.5 text-sm text-white/90 font-canva-sans leading-snug">
+                      <CheckCircle className="w-4 h-4 text-brand-orange shrink-0 mt-0.5" aria-hidden="true" />
+                      <span>{h}</span>
+                    </li>
+                  ))}
+                </ul>
 
-                <button
-                  onClick={handleCopyCode}
-                  className="w-full flex items-center justify-center gap-2 bg-white text-brand-ink hover:bg-brand-canvas py-2.5 px-4 rounded-xl font-mono text-sm font-bold border-2 border-dashed border-brand-orange transition-colors"
-                  title="Click to copy code"
+                <a
+                  href={dealLink}
+                  className="w-full inline-flex items-center justify-center gap-2 bg-brand-orange hover:bg-brand-orange/90 text-white py-2.5 px-4 rounded-xl font-poppins font-semibold text-sm shadow-glow-orange transition-colors"
                 >
-                  <Tag className="w-4 h-4 text-brand-orange" />
-                  <span>{promoCode}</span>
-                  {copied ? (
-                    <span className="inline-flex items-center gap-1 text-emerald-600 text-xs font-poppins">
-                      <CheckCircle className="w-3.5 h-3.5" /> Copied!
-                    </span>
-                  ) : (
-                    <span className="text-[11px] text-brand-muted-ink font-poppins uppercase">
-                      (Tap to copy)
-                    </span>
-                  )}
-                </button>
+                  Grab this deal <ArrowRight className="w-4 h-4" />
+                </a>
 
-                <p className="text-[11px] text-white/50 font-canva-sans mt-3">
-                  *Applicable on customized family & couple packages
+                <p className="text-[11px] text-white/50 font-canva-sans mt-3 text-center">
+                  *On customised family &amp; couple packages
                 </p>
               </div>
             </div>
