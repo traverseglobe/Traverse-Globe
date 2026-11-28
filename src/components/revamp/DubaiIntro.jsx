@@ -1,7 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { CalendarDays, Plane, ShieldCheck, Wallet } from 'lucide-react';
 import Kicker from './Kicker';
-import SectionRule from './SectionRule';
 
 const FACTS = [
   { icon: CalendarDays, label: 'Best months', value: 'Nov – Mar' },
@@ -35,11 +34,21 @@ export default function DubaiIntro() {
           viewport={{ once: true, margin: '-80px' }}
         >
           <motion.div variants={item}>
-            <Kicker className="mb-3 block">Why Dubai</Kicker>
+            <Kicker className="mb-3 block text-brand-teal">Why Dubai</Kicker>
           </motion.div>
 
           <motion.div variants={item}>
-            <SectionRule className="mb-4" />
+            {/* Full-width divider with an orange tip (Option 2 palette). Scoped
+                here rather than in SectionRule so other sections keep the plain
+                hairline. Uses the --c-* theme vars so it also follows dark mode. */}
+            <span
+              aria-hidden="true"
+              className="mb-4 block h-0.5 w-full rounded-full"
+              style={{
+                background:
+                  'linear-gradient(90deg, rgb(var(--c-orange)) 0%, rgb(var(--c-orange) / 0.25) 20%, rgb(var(--c-hairline)) 20%)',
+              }}
+            />
           </motion.div>
 
           <motion.h2
@@ -71,9 +80,9 @@ export default function DubaiIntro() {
                 <dt className="text-[10px] font-poppins font-semibold uppercase tracking-widest text-brand-muted-ink">
                   <span
                     aria-hidden="true"
-                    className="absolute left-3.5 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-xl bg-brand-orange/10"
+                    className="absolute left-3.5 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-xl bg-brand-teal/10"
                   >
-                    <Icon className="h-[18px] w-[18px] text-brand-orange" />
+                    <Icon className="h-[18px] w-[18px] text-brand-teal" />
                   </span>
                   {label}
                 </dt>

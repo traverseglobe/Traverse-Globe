@@ -88,7 +88,7 @@ export default function HomeBlogSection() {
             <Kicker tone="orange" size="sm" className="mb-2">
               Insider Knowledge
             </Kicker>
-            <SectionRule className="mb-3" />
+            <SectionRule tone="accent" className="mb-3" />
             <h2 className="font-poppins font-bold text-2xl md:text-3xl lg:text-4xl text-brand-ink leading-tight">
               Latest Travel Guides &amp; Tips
             </h2>

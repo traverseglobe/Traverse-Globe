@@ -35,6 +35,7 @@ const ExplorePrices = () => {
       subtitle="Real prices, no hidden fees — with 24/7 on-ground assistance &amp; verified 4★+ stays"
       bg="canvas"
       slidesPerViewDesktop={4}
+      accentRule
     >
       {packages.map((pkg, i) => (
         <PackageCard

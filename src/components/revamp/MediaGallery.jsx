@@ -186,7 +186,7 @@ export default function MediaGallery() {
               <Kicker className="mb-3 block">Real trips, real families</Kicker>
             </motion.div>
             <motion.div variants={item}>
-              <SectionRule className="mb-4" />
+              <SectionRule tone="accent" className="mb-4" />
             </motion.div>
             <motion.h2 variants={item} className="font-poppins font-bold text-h2 text-brand-ink leading-tight">
               Moments from our travellers
