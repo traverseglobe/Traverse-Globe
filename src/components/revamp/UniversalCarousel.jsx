@@ -120,7 +120,7 @@ export default function UniversalCarousel({
             style={{ '--per-desktop': slidesPerViewDesktop, '--rail-gap': '1.25rem' }}
             className={cn(
               'flex gap-5 will-change-transform',
-              '[--per:1.15] sm:[--per:2.15] md:[--per:3] lg:[--per:var(--per-desktop)]'
+              '[--per:1] sm:[--per:2] md:[--per:3] lg:[--per:var(--per-desktop)]'
             )}
           >
             {items.map((child, i) => (
