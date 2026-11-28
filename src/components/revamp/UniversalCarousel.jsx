@@ -59,7 +59,7 @@ export default function UniversalCarousel({
   const items = Children.toArray(children);
 
   return (
-    <section className={cn('section-y', bgClass, className)}>
+    <section className={cn('section-y overflow-hidden', bgClass, className)}>
       <div className="container-custom">
         {/* Header row: kicker/title/subtitle, revealed as a sequence */}
         <motion.div
@@ -105,10 +105,10 @@ export default function UniversalCarousel({
       {/* The rail. Full section width, padded to the container gutter. The track's
           width is the scroller minus that padding — exactly the container's content
           width — so card widths (a % of the track) are unchanged by the bleed. */}
-      <div className="container-custom overflow-hidden">
-        <div
+      <div
           ref={scrollerRef}
           className={cn(
+            'rail-bleed',
             'overflow-x-auto overscroll-x-contain snap-x snap-mandatory',
             'cursor-grab [&[data-dragging]]:cursor-grabbing',
             '[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
@@ -133,7 +133,6 @@ export default function UniversalCarousel({
               </div>
             ))}
           </div>
-        </div>
       </div>
 
       <div className="container-custom">
