@@ -13,9 +13,13 @@ import ShimmerButton from '../magicui/ShimmerButton';
  * background image stay CMS-overridable via useOffers(); the rest of the copy
  * is fixed marketing content so the layout matches the approved design.
  *
- * GOLD is a banner-local accent (warm gold on the dark scrim) — it is not a
- * global theme token, only used here for the headline flourish, the
- * FLASH DISCOUNT pill and the savings callout.
+ * Layout: both columns stretch to the same height. The left column spreads its
+ * three groups (intro / CTAs / benefit strip) top-to-bottom with justify-between,
+ * and the card pins its footnote to the bottom, so the two columns line up on the
+ * same top and bottom edges with no empty gap.
+ *
+ * GOLD is a banner-local accent only (headline flourish, FLASH DISCOUNT pill,
+ * savings callout) — not a global theme token.
  */
 const GOLD = '#e7c988';
 
@@ -68,56 +72,62 @@ export default function SalesBanner() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 container-custom section-y grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
-          {/* Left column */}
-          <div className="lg:col-span-7 flex flex-col">
-            <div className="flex flex-wrap items-center gap-2.5 mb-5">
-              <span className="inline-flex items-center gap-1.5 bg-brand-orange text-white text-xs font-poppins font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-glow-orange">
-                <Star className="w-3.5 h-3.5 fill-current" />
-                Limited Time Offer
-              </span>
-              <span className="inline-flex items-center gap-1.5 text-white/80 text-xs font-poppins px-3 py-1.5 rounded-full border border-white/15">
-                <Clock className="w-3.5 h-3.5 text-brand-orange" />
-                Valid for bookings this month
-              </span>
+        <div className="relative z-10 container-custom py-7 md:py-9 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
+          {/* Left column: three groups spread top-to-bottom */}
+          <div className="lg:col-span-7 flex flex-col justify-between gap-7">
+            {/* Group 1 — intro */}
+            <div>
+              <div className="flex flex-wrap items-center gap-2.5 mb-5">
+                <span className="inline-flex items-center gap-1.5 bg-brand-orange text-white text-xs font-poppins font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-glow-orange">
+                  <Star className="w-3.5 h-3.5 fill-current" />
+                  Limited Time Offer
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-white/80 text-xs font-poppins px-3 py-1.5 rounded-full border border-white/15">
+                  <Clock className="w-3.5 h-3.5 text-brand-orange" />
+                  Valid for bookings this month
+                </span>
+              </div>
+
+              <h3 className="font-season text-white text-3xl md:text-4xl lg:text-5xl leading-[1.08] mb-4">
+                Mega Holiday Season Sale —<br />
+                <span className="italic" style={{ color: GOLD }}>Dubai Escapes</span>
+              </h3>
+
+              <p className="text-white/80 font-canva-sans text-sm md:text-base max-w-xl mb-0">
+                Book handpicked Dubai itineraries with all-inclusive transparent pricing, handpicked
+                hotels, and dedicated 24/7 on-ground concierge.
+              </p>
             </div>
 
-            <h3 className="font-season text-white text-3xl md:text-4xl lg:text-5xl leading-[1.08] mb-4">
-              Mega Holiday Season Sale —<br />
-              <span className="italic" style={{ color: GOLD }}>Dubai Escapes</span>
-            </h3>
+            {/* Group 2 — calls to action */}
+            <div>
+              <div className="flex flex-wrap items-center gap-3 md:gap-4">
+                <ShimmerButton as="a" href={telHref} borderRadius="0.75rem" className="px-6 py-3.5 text-sm">
+                  <PhoneCall className="w-4 h-4" />
+                  Claim Deal via Call
+                </ShimmerButton>
 
-            <p className="text-white/80 font-canva-sans text-sm md:text-base max-w-xl mb-6">
-              Book handpicked Dubai itineraries with all-inclusive transparent pricing, handpicked
-              hotels, and dedicated 24/7 on-ground concierge.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-3 md:gap-4">
-              <ShimmerButton as="a" href={telHref} borderRadius="0.75rem" className="px-6 py-3.5 text-sm">
-                <PhoneCall className="w-4 h-4" />
-                Claim Deal via Call
-              </ShimmerButton>
+                <a
+                  href={waUrl}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5d] text-white px-5 py-3.5 rounded-xl font-poppins font-medium text-sm shadow-soft-md transition-[transform,box-shadow,background-color] duration-200 hover:-translate-y-0.5"
+                >
+                  <WhatsAppIcon className="w-4 h-4" />
+                  WhatsApp Concierge
+                </a>
+              </div>
 
               <a
-                href={waUrl}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5d] text-white px-5 py-3.5 rounded-xl font-poppins font-medium text-sm shadow-soft-md transition-[transform,box-shadow,background-color] duration-200 hover:-translate-y-0.5"
+                href={dealLink}
+                className="inline-flex items-center gap-1.5 text-white/90 hover:text-brand-orange font-poppins text-sm font-semibold transition-colors mt-4 w-fit"
               >
-                <WhatsAppIcon className="w-4 h-4" />
-                WhatsApp Concierge
+                View All Packages <ArrowRight className="w-4 h-4" />
               </a>
             </div>
 
-            <a
-              href={dealLink}
-              className="inline-flex items-center gap-1.5 text-white/90 hover:text-brand-orange font-poppins text-sm font-semibold transition-colors mt-4 w-fit"
-            >
-              View All Packages <ArrowRight className="w-4 h-4" />
-            </a>
-
-            {/* Mini benefit strip */}
-            <div className="mt-6 pt-5 border-t border-white/10 flex flex-wrap items-center gap-x-6 gap-y-3">
+            {/* Group 3 — mini benefit strip (bottom) */}
+            <div className="pt-5 border-t border-white/10 flex flex-wrap items-center gap-x-6 gap-y-3">
               {miniBenefits.map(({ icon: Icon, label }) => (
                 <span key={label} className="inline-flex items-center gap-2 text-white/85 font-poppins text-sm">
                   <Icon className="w-4 h-4 text-brand-orange" />
@@ -171,7 +181,7 @@ export default function SalesBanner() {
                 ))}
               </ul>
 
-              <div className="border-t border-white/10 pt-3 mt-4">
+              <div className="border-t border-white/10 pt-3 mt-auto">
                 <p className="text-center text-[11px] text-white/45 font-canva-sans">
                   *Applicable on customized family &amp; couple holiday packages
                 </p>
