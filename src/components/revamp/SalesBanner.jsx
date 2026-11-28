@@ -68,7 +68,7 @@ export default function SalesBanner() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 container-custom section-y grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
+        <div className="relative z-10 container-custom py-8 md:py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
           {/* Left column */}
           <div className="lg:col-span-7 flex flex-col">
             <div className="flex flex-wrap items-center gap-2.5 mb-5">
@@ -116,8 +116,8 @@ export default function SalesBanner() {
               View All Packages <ArrowRight className="w-4 h-4" />
             </a>
 
-            {/* Mini benefit strip */}
-            <div className="mt-6 pt-5 border-t border-white/10 flex flex-wrap items-center gap-x-6 gap-y-3">
+            {/* Mini benefit strip — pinned to the bottom so it lines up with the card footnote */}
+            <div className="mt-auto pt-5 border-t border-white/10 flex flex-wrap items-center gap-x-6 gap-y-3">
               {miniBenefits.map(({ icon: Icon, label }) => (
                 <span key={label} className="inline-flex items-center gap-2 text-white/85 font-poppins text-sm">
                   <Icon className="w-4 h-4 text-brand-orange" />
@@ -171,7 +171,7 @@ export default function SalesBanner() {
                 ))}
               </ul>
 
-              <div className="border-t border-white/10 pt-3 mt-4">
+              <div className="border-t border-white/10 pt-3 mt-auto">
                 <p className="text-center text-[11px] text-white/45 font-canva-sans">
                   *Applicable on customized family &amp; couple holiday packages
                 </p>
